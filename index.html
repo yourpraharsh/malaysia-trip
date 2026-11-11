@@ -65,7 +65,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 
 .flights,.stays{display:grid;gap:10px}
 .ticket{display:grid;grid-template-columns:1fr auto;gap:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;position:relative}
-.ticket::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--c)}
+.ticket::before{content:"";position:absolute;left:0;top:52px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--c)}
 .ticket .legline{display:flex;align-items:center;gap:10px;font:700 22px "Bricolage Grotesque",system-ui,sans-serif}
 .ticket .legline svg{width:20px;height:20px;color:var(--muted)}
 .ticket .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 16px;color:var(--muted);font-size:14px}
@@ -230,8 +230,29 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .pill.hl{background:var(--cs);border-color:transparent;color:var(--c);font-weight:700}
 .pill.hl svg{color:var(--c)}
 .pill.bagp{background:var(--surface)}
-.ticket .airline{grid-column:1;grid-row:1;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--muted)}
-.ticket .status{grid-column:2;grid-row:1}
+.ticket .airline{grid-column:1;grid-row:2;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--muted)}
+.ticket .status{grid-column:2;grid-row:2}
+.ticket .eyebrow{grid-column:1/-1;grid-row:1;display:flex;align-items:center;justify-content:flex-start;gap:8px 12px;flex-wrap:wrap;margin:-14px -16px 8px;padding:9px 16px;border-radius:13px 13px 0 0;background:var(--cs);color:var(--c);font-size:14px;font-weight:700;border-bottom:1px solid var(--line)}
+.ticket .eyebrow .ed{display:inline-flex;align-items:center;gap:7px}
+.ticket .eyebrow .ed svg{width:16px;height:16px}
+.ticket .eyebrow .cd{font-weight:600;font-variant-numeric:tabular-nums;padding:2px 10px;border-radius:999px;background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.ticket .eyebrow .cd.soon{background:var(--todo);border-color:var(--todo);color:#fff;animation:pulse 2s ease-in-out infinite}
+.ticket .eyebrow .cd.past{color:var(--muted)}
+.xconn{display:flex;align-items:center;gap:10px;margin:-2px 0}
+.xconn .xline{flex:1;border-top:2px dashed var(--line);min-width:20px}
+.xconn .xlab{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:2px dashed var(--line);border-radius:999px;background:var(--surface);font-size:14px;color:var(--ink);white-space:nowrap}
+.xconn .xlab b{font-weight:700}
+.xconn .xlab small{color:var(--muted);font-size:12px;margin-left:2px}
+.ckw{white-space:normal;flex-wrap:wrap;row-gap:4px;border-radius:12px;font-weight:500;border-color:transparent}
+.ckw b{white-space:nowrap;margin-right:2px}
+.ckw .tm{font-weight:700;font-variant-numeric:tabular-nums;padding:1px 9px;border-radius:999px;background:var(--surface);margin-left:4px;white-space:nowrap}
+.ckw.ck-open{background:#DDF3E6;color:#11713F}.ckw.ck-open svg{color:#11713F}
+.ckw.ck-close{background:#FDE2E1;color:#B42318}.ckw.ck-close svg{color:#B42318}
+.ckw.ck-done{background:var(--bg);color:var(--muted)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ckw.ck-open{background:#123323;color:#7DDBA6}:root:not([data-theme="light"]) .ckw.ck-open svg{color:#7DDBA6}:root:not([data-theme="light"]) .ckw.ck-close{background:#3A1A1A;color:#FF9A92}:root:not([data-theme="light"]) .ckw.ck-close svg{color:#FF9A92}}
+:root[data-theme="dark"] .ckw.ck-open{background:#123323;color:#7DDBA6}:root[data-theme="dark"] .ckw.ck-close{background:#3A1A1A;color:#FF9A92}
+@keyframes pulse{50%{opacity:.75}}
+@media (prefers-reduced-motion:reduce){.ticket .eyebrow .cd.soon{animation:none}}
 .ticket .legline{grid-column:1/-1}
 .alb{display:inline-flex;align-items:center;gap:4px;color:#fff;font:800 12px "Figtree",system-ui,sans-serif;letter-spacing:.04em;padding:3px 8px 3px 6px;border-radius:6px;vertical-align:middle}
 .alb svg{width:13px;height:13px;stroke:#fff}
@@ -409,29 +430,60 @@ const AL = {
   AK:{n:"AirAsia", c:"#d0121b"}
 };
 const alBadge = (code, small, label) => `<span class="alb${small ? " sm" : ""}" style="background:${AL[code].c}"${label ? "" : ' aria-hidden="true"'}>${ic("plane")}${label || code}</span>`;
+const fullDate = f => {
+  const [y, m, d] = f.dep.slice(0, 10).split("-").map(Number);
+  const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+  return `${wd} ${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m - 1]}`;
+};
+const countdown = dep => {
+  const ms = new Date(dep).getTime() - Date.now();
+  if (ms <= 0) return ["Departed", "past"];
+  const mins = Math.floor(ms / 60000), h = Math.floor(mins / 60), m = mins % 60;
+  if (h < 24) return [`⏳ Departs in ${h ? h + "h " : ""}${m}m`, "soon"];
+  const d = Math.floor(h / 24), rh = h % 24;
+  return [`In ${d} day${d > 1 ? "s" : ""}${rh ? ", " + rh + "h" : ""}`, ""];
+};
+const dur = ms => { const mins = Math.max(1, Math.ceil(ms / 60000)), h = Math.floor(mins / 60), m = mins % 60;
+  if (h < 24) return `${h ? h + "h " : ""}${m}m`; const d = Math.floor(h / 24), rh = h % 24; return `${d} day${d > 1 ? "s" : ""}${rh ? ", " + rh + "h" : ""}`; };
+const whenLabel = iso => { const [y, mo, d] = iso.slice(0, 10).split("-").map(Number);
+  const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(Date.UTC(y, mo - 1, d)).getUTCDay()];
+  const tz = iso.endsWith("+05:30") ? "IST" : "Malaysia time";
+  return `${wd} ${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][mo - 1]}, ${iso.slice(11, 16)} ${tz}`; };
+const tickCheckins = () => document.querySelectorAll(".ckw").forEach(el => {
+  const now = Date.now(), o = new Date(el.dataset.open).getTime(), c = new Date(el.dataset.close).getTime();
+  let cls, html;
+  if (now < o) { cls = "ck-open"; html = `${ic("check")}<b>Check-in opens</b>${whenLabel(el.dataset.open)}<span class="tm">in ${dur(o - now)}</span>`; }
+  else if (now < c) { cls = "ck-close"; html = `${ic("check")}<b>Check-in open</b>closes ${whenLabel(el.dataset.close)}<span class="tm">closes in ${dur(c - now)}</span>`; }
+  else { cls = "ck-done"; html = `${ic("check")}<b>Check-in closed</b>`; }
+  el.className = "pill ckw " + cls; el.innerHTML = html;
+});
+const tickCountdowns = () => tickCheckins() || document.querySelectorAll(".cd[data-dep]").forEach(el => {
+  const [t, cls] = countdown(el.dataset.dep);
+  el.textContent = t; el.className = "cd" + (cls ? " " + cls : "");
+});
 const fno = f => f.no.replace(" (Air India Express)","");
 const legTimes = f => { const [d, a] = f.time.split(", ")[0].split(" → "); return [d, a || ""]; };
 
 const flights = [
-  {key:"f-ai9547", al:"IX", ci:["Try AIX web check-in", URL_.aix, "Your e-ticket says web check-in isn’t allowed on this codeshare, so expect to use the Air India Express counter at BLR T2."], from:"BLR", to:"DEL", ft:"T2", tt:"T1", no:"AI 9547 (Air India Express)", day:"Sat 14", time:"05:30 → 08:30", pnr:"93OG4W", city:"home",
+  {key:"f-ai9547", dep:"2026-11-14T05:30:00+05:30", al:"IX", ci:["Try AIX web check-in", URL_.aix, "Your e-ticket says web check-in isn’t allowed on this codeshare, so expect to use the Air India Express counter at BLR T2."], from:"BLR", to:"DEL", ft:"T2", tt:"T1", no:"AI 9547 (Air India Express)", day:"Sat 14", time:"05:30 → 08:30", pnr:"93OG4W", city:"home",
    a:[AP.BLR2, AP.DEL1], cta:["Manage booking", URL_.aix],
    bag:{cabin:"7 kg", checked:"20 kg"},
    note:"No web check-in: use the Air India Express counters at BLR T2. Separate PNR from AI 2384, so in Delhi collect your bag at T1, take the shuttle to T3 and check it in again."},
-  {key:"f-ai2384", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Opens Thu 12 Nov, 13:50 IST (48 h before), closes 2 h before departure."], from:"DEL", to:"KUL", ft:"T3", tt:"T1", no:"AI 2384", day:"Sat 14", time:"13:50 → 22:00, seat 9A", pnr:"93GEQ5", city:"kl",
+  {key:"f-ai2384", cio:"2026-11-12T13:50:00+05:30", cic:"2026-11-14T11:50:00+05:30", dep:"2026-11-14T13:50:00+05:30", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sat 14 Nov, 11:50 IST."], from:"DEL", to:"KUL", ft:"T3", tt:"T1", no:"AI 2384", day:"Sat 14", time:"13:50 → 22:00, seat 9A", pnr:"93GEQ5", city:"kl",
    a:[AP.DEL3, AP.KUL1], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"30 kg"},
    note:"Emigration at Delhi T3."},
-  {key:"f-kulpen", al:"MH", cut:CUT.mh1148, ci:["Web check-in", URL_.mhCheckin, "Opens Sat 14 Nov, 13:50 Malaysia time; closes 90 min before. Economy passengers at KLIA must self check-in."], from:"KUL", to:"PEN", ft:"T1", tt:"", no:"MH 1148", day:"Mon 16", time:"13:50 → 14:50", pnr:"58Q72G", city:"pen",
+  {key:"f-kulpen", cio:"2026-11-14T13:50:00+08:00", cic:"2026-11-16T12:20:00+08:00", dep:"2026-11-16T13:50:00+08:00", al:"MH", cut:CUT.mh1148, ci:["Web check-in", URL_.mhCheckin, "Closes Mon 16 Nov, 12:20 Malaysia time. Required for economy at KLIA."], from:"KUL", to:"PEN", ft:"T1", tt:"", no:"MH 1148", day:"Mon 16", time:"13:50 → 14:50", pnr:"58Q72G", city:"pen",
    a:[AP.KUL1, AP.PEN], cta:["Manage booking", URL_.mh], bag:{cabin:"7 kg", checked:"20 kg"}},
-  {key:"f-penlgk", al:"AK", cut:CUT.ak6241, ci:["Web check-in", URL_.akCheckin, "5 Nov, 09:40 to 19 Nov, 08:40 Malaysia time."], from:"PEN", to:"LGK", ft:"", tt:"", no:"AK 6241", day:"Thu 19", time:"09:40 → 10:15", pnr:"JESC4T", city:"lgk",
+  {key:"f-penlgk", cio:"2026-11-05T09:40:00+08:00", cic:"2026-11-19T08:40:00+08:00", dep:"2026-11-19T09:40:00+08:00", al:"AK", cut:CUT.ak6241, ci:["Web check-in", URL_.akCheckin, "Closes Thu 19 Nov, 08:40 Malaysia time."], from:"PEN", to:"LGK", ft:"", tt:"", no:"AK 6241", day:"Thu 19", time:"09:40 → 10:15", pnr:"JESC4T", city:"lgk",
    a:[AP.PEN, AP.LGK], cta:["Manage booking", URL_.airasia], bag:{cabin:"7 kg total, including your personal item", checked:"20 kg"},
-   note:"Check in online between 5 Nov, 09:40 and 19 Nov, 08:40 (Malaysia time). AirAsia charges extra for airport check-in."},
-  {key:"f-lgkkul", al:"AK", cut:CUT.ak6317, ci:["Web check-in", URL_.akCheckin, "6 Nov, 18:30 to 20 Nov, 17:30 Malaysia time."], from:"LGK", to:"KUL", ft:"", tt:"T2", no:"AK 6317", day:"Fri 20", time:"18:30 → 19:45", pnr:"F9VR5S", city:"kl",
+   note:"AirAsia charges extra for airport check-in."},
+  {key:"f-lgkkul", cio:"2026-11-06T18:30:00+08:00", cic:"2026-11-20T17:30:00+08:00", dep:"2026-11-20T18:30:00+08:00", al:"AK", cut:CUT.ak6317, ci:["Web check-in", URL_.akCheckin, "Closes Fri 20 Nov, 17:30 Malaysia time."], from:"LGK", to:"KUL", ft:"", tt:"T2", no:"AK 6317", day:"Fri 20", time:"18:30 → 19:45", pnr:"F9VR5S", city:"kl",
    a:[AP.LGK, AP.KUL2], cta:["Manage booking", URL_.airasia], bag:{cabin:"7 kg total, including your personal item", checked:"20 kg"},
-   note:"Check in online between 6 Nov, 18:30 and 20 Nov, 17:30 (Malaysia time); airport check-in costs extra. Be at Langkawi airport by 16:30. Lands at KLIA T2 (klia2), not T1."},
-  {key:"f-ai2387", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Opens Thu 19 Nov, 23:00 Malaysia time, closes 2 h before departure."], from:"KUL", to:"DEL", ft:"T1", tt:"T3", no:"AI 2387", day:"Sat 21", time:"23:00 → 02:20 (Sun), seat 9F", pnr:"93GEQ5", city:"home",
+   note:"Airport check-in costs extra. Be at Langkawi airport by 16:30. Lands at KLIA T2 (klia2), not T1."},
+  {key:"f-ai2387", cio:"2026-11-19T23:00:00+08:00", cic:"2026-11-21T21:00:00+08:00", dep:"2026-11-21T23:00:00+08:00", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sat 21 Nov, 21:00 Malaysia time."], from:"KUL", to:"DEL", ft:"T1", tt:"T3", no:"AI 2387", day:"Sat 21", time:"23:00 → 02:20 (Sun), seat 9F", pnr:"93GEQ5", city:"home",
    a:[AP.KUL1, AP.DEL3], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"30 kg"},
    note:"Immigration, customs and bag pickup at Delhi T3."},
-  {key:"f-delblr", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Opens Fri 20 Nov, 06:00 IST (48 h before)."], from:"DEL", to:"BLR", ft:"T3", tt:"T2", no:"AI 2409", day:"Sun 22", time:"06:00 → 08:50", pnr:"5BMSRK", city:"home",
+  {key:"f-delblr", cio:"2026-11-20T06:00:00+05:30", cic:"2026-11-22T05:00:00+05:30", dep:"2026-11-22T06:00:00+05:30", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sun 22 Nov, 05:00 IST."], from:"DEL", to:"BLR", ft:"T3", tt:"T2", no:"AI 2409", day:"Sun 22", time:"06:00 → 08:50", pnr:"5BMSRK", city:"home",
    a:[AP.DEL3, AP.BLR2], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"20 kg, 1 piece"},
    note:"⚠️ Checked bag must be under 20 kg, one piece (AI 2387 allowed 30 kg), so weigh it before you leave KL. Booked via Hopper; manage it there. Separate PNR: check your bag in again at T3 and be checked in by 05:00. Air India’s Delhi T2 flights are numbered AI 1xxx, so AI 2409 should leave from T3, the terminal you land at, but confirm on your boarding pass."}
 ];
@@ -643,7 +695,8 @@ document.getElementById("packRule").innerHTML =
 
 document.getElementById("flightList").innerHTML = flights.map(f => `
   <div class="ticket" style="--c:${AL[f.al].c};--cs:color-mix(in srgb, ${AL[f.al].c} 13%, var(--surface));--on-c:#fff">
-    <div class="airline">${alBadge(f.al, false, fno(f))}<span>${AL[f.al].n}</span><span class="fdate">${ic("cal")}${f.day}</span></div>
+    <div class="eyebrow"><span class="ed">${ic("cal")}${fullDate(f)}</span><span class="cd" data-dep="${f.dep}"></span></div>
+    <div class="airline">${alBadge(f.al, false, fno(f))}<span>${AL[f.al].n}</span></div>
     <div class="legline">
       <span class="lp">${EMO_CODE[f.from]||""}${f.from}${tmTag(f.ft)}<span class="lt">${legTimes(f)[0]}</span></span>
       ${ic("arrow")}
@@ -656,8 +709,8 @@ document.getElementById("flightList").innerHTML = flights.map(f => `
       <span class="pill bagp">${ic("bag")}<b>Checked</b>${f.bag.checked}</span>
     </div>
     <div class="pills ckp">
-      ${f.ci?`<span class="pill hl wide">${ic("check")}<b>Check-in</b>${f.ci[2]}</span>`:""}
-      ${(f.cut||[]).map(x => `<span class="pill hl">${ic("clock")}<b>${x[0]}</b>${x[1]}</span>`).join("")}
+      ${f.ci ? (f.cio ? `<span class="pill ckw" data-open="${f.cio}" data-close="${f.cic}"></span>` : `<span class="pill hl wide">${ic("check")}<b>Check-in</b>${f.ci[2]}</span>`) : ""}
+      ${(f.cut||[]).filter(x => !/online check-in/.test(x[1])).map(x => `<span class="pill hl">${ic("clock")}<b>${x[0]}</b>${x[1]}</span>`).join("")}
     </div>
     ${f.note?`<div class="tnote">${f.note}</div>`:""}
     ${refField(f.key, "PNR", f.pnr)}
@@ -668,6 +721,10 @@ const isLate = d => /^(Fri 20|Sat 21)/.test(d);
 const lateIdx = (arr, f) => arr.findIndex(x => isLate(f(x)));
 const sepTxt = (first) => first ? "🏙️ First days · Sat 14 – Mon 16" : "🏙️ Back in KL · Fri 20 – Sat 21";
 const klSep = (city, i, late, tag) => city !== "kl" ? "" : i === 0 && late !== 0 ? `<${tag} class="sep"><span>${sepTxt(true)}</span></${tag}>` : i === late ? `<${tag} class="sep"><span>${sepTxt(false)}</span></${tag}>` : "";
+document.querySelector("#flightList .ticket").insertAdjacentHTML("afterend",
+  `<div class="xconn" aria-label="Transfer from Delhi T1 to Delhi T3"><span class="xline"></span><span class="xlab">🚌 <b>DEL T1</b> → <b>DEL T3</b><small>shuttle bus</small></span><span class="xline"></span></div>`);
+tickCountdowns();
+setInterval(tickCountdowns, 30000);
 const stayCard = s => `
   <div class="stay" style="--c:${CITY[s.city].c};--cs:${CITY[s.city].cs}">
     <div class="ico" style="font-size:24px;line-height:1">${EMO[s.city]}</div>
