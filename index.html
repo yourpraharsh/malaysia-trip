@@ -6,7 +6,7 @@
 <title>Malaysia, 14–21 Nov</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#F5F8F7; --surface:#FFFFFF; --ink:#10302F; --muted:#587170; --line:#D9E3E1;
@@ -43,18 +43,25 @@
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='rgb(120,135,135)' stroke-opacity='.11' stroke-width='1.2'%3E%3Cpath d='M36 21c6 6 6 24 0 30c-6-6-6-24 0-30z'/%3E%3Cpath d='M21 36c6-6 24-6 30 0c-6 6-24 6-30 0z'/%3E%3Ccircle cx='36' cy='36' r='3.2'/%3E%3Cpath d='M0-7L7 0L0 7L-7 0Z M72-7L79 0L72 7L65 0Z M0 65L7 72L0 79L-7 72Z M72 65L79 72L72 79L65 72Z'/%3E%3Cpath d='M36 0v6 M36 66v6 M0 36h6 M66 36h6' stroke-dasharray='2 3'/%3E%3C/g%3E%3C/svg%3E") 0 0/72px 72px,
+    radial-gradient(1000px 560px at -5% -10%, color-mix(in srgb, var(--kl) 30%, transparent), transparent 65%),
+    radial-gradient(900px 520px at 105% 0%, color-mix(in srgb, var(--lgk) 34%, transparent), transparent 65%),
+    radial-gradient(1000px 620px at 50% 115%, color-mix(in srgb, var(--pen) 26%, transparent), transparent 65%),
+    linear-gradient(180deg, color-mix(in srgb, var(--kl-soft) 60%, var(--bg)) 0%, var(--bg) 45%, color-mix(in srgb, var(--lgk-soft) 50%, var(--bg)) 100%)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 a{color:inherit}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
 .wrap{max-width:760px;margin:0 auto;padding:0 18px}
-h1,h2,h3{font-family:"Bricolage Grotesque","Figtree",system-ui,sans-serif;margin:0;line-height:1.1}
+h1,h2,h3{font-family:"Fredoka","Figtree",system-ui,sans-serif;margin:0;line-height:1.1}
 svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 .hero{padding-top:36px;padding-bottom:20px}
 .hero h1{font-size:clamp(40px,10vw,68px);font-weight:800;letter-spacing:-.02em}
 .hero p{margin:10px 0 0;color:var(--muted);max-width:52ch}
 
-.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb, var(--bg) 80%, transparent);-webkit-backdrop-filter:blur(12px) saturate(1.2);backdrop-filter:blur(12px) saturate(1.2);border-bottom:1px solid var(--line)}
 .jump .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
 .jump .wrap::-webkit-scrollbar{display:none}
 .jump a{flex:none;text-decoration:none;font-weight:600;font-size:14px;padding:7px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);white-space:nowrap}
@@ -63,10 +70,10 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 section{padding:30px 0 6px}
 section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 
-.flights,.stays{display:grid;gap:10px}
-.ticket{display:grid;grid-template-columns:1fr auto;gap:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;position:relative}
-.ticket::before{content:"";position:absolute;left:0;top:52px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--c)}
-.ticket .legline{display:flex;align-items:center;gap:10px;font:700 22px "Bricolage Grotesque",system-ui,sans-serif}
+.flights,.stays{display:grid;gap:18px}
+.ticket{display:grid;grid-template-columns:1fr auto;gap:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 24px 22px;position:relative}
+.ticket::before{content:none}
+.ticket .legline{display:flex;align-items:center;gap:10px;font:700 22px "Fredoka",system-ui,sans-serif}
 .ticket .legline svg{width:20px;height:20px;color:var(--muted)}
 .ticket .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 16px;color:var(--muted);font-size:14px}
 .ticket .meta b{color:var(--ink);font-weight:600}
@@ -84,7 +91,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .ref input:not(:placeholder-shown){border-style:solid;border-color:var(--c)}
 .ref input::placeholder{font-weight:400;letter-spacing:0;color:var(--muted)}
 
-.stay{display:grid;grid-template-columns:auto 1fr auto;gap:2px 14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.stay{display:grid;grid-template-columns:auto 1fr auto;gap:6px 16px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
 .stay .ico{grid-row:1/4;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--cs);color:var(--c)}
 .stay .ico svg{width:22px;height:22px}
 .stay h3{font-size:19px;font-weight:700}
@@ -122,7 +129,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .journey{display:flex;align-items:flex-start;overflow-x:auto;padding:6px 0 14px;margin:26px -18px 0;padding-left:18px;padding-right:18px;scrollbar-width:thin}
 .jn{flex:none;width:70px;text-align:center}
 .jn .dot{width:18px;height:18px;border-radius:50%;margin:0 auto 8px;background:var(--c)}
-.jn b{display:block;font:800 20px/1.1 "Bricolage Grotesque",system-ui,sans-serif}
+.jn b{display:block;font:800 20px/1.1 "Fredoka",system-ui,sans-serif}
 .jn small{display:block;font-size:12px;color:var(--muted);line-height:1.3}
 .jn .nt{display:inline-block;margin-top:5px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--cs);color:var(--c);white-space:nowrap}
 .jl{flex:1 0 100px;text-align:center;padding:0 2px}
@@ -156,8 +163,8 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .brow.total{background:var(--bg)}
 .brow.total .l,.brow.total .a{font-size:17px}
 .grand{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;background:var(--ink);color:var(--bg);border-radius:14px;padding:16px}
-.grand .l{font:700 18px "Bricolage Grotesque",system-ui,sans-serif}
-.grand .a{font:800 26px "Bricolage Grotesque",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.grand .l{font:700 18px "Fredoka",system-ui,sans-serif}
+.grand .a{font:800 26px "Fredoka",system-ui,sans-serif;font-variant-numeric:tabular-nums}
 .grand .d{grid-column:1/-1;font-size:13px;opacity:.8}
 .bst{display:block;width:max-content;margin:4px 0 0 auto;font:700 11px "Figtree",system-ui,sans-serif;padding:2px 8px;border-radius:999px}
 .bst.ok{background:var(--ok-soft);color:var(--ok)}
@@ -180,7 +187,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .wx{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
 .wx .loc{margin-left:auto}
 .wx .we{font-size:26px;line-height:1}
-.wx b{color:var(--ink);font:800 18px "Bricolage Grotesque",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.wx b{color:var(--ink);font:800 18px "Fredoka",system-ui,sans-serif;font-variant-numeric:tabular-nums}
 .hb{position:relative;width:84px;height:6px;border-radius:3px;background:var(--line)}
 .hb i,.tb i{position:absolute;border-radius:3px;background:linear-gradient(90deg,#4f9bff,#ffb03a,#ff6a3d)}
 .hb i{top:0;bottom:0}
@@ -190,7 +197,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .wxd{flex:1 0 78px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px 12px;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:14px;text-decoration:none}
 .wxd .dn{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
 .wxd .we{font-size:30px;line-height:1}
-.wxd .hi{font:800 18px "Bricolage Grotesque",system-ui,sans-serif}
+.wxd .hi{font:800 18px "Fredoka",system-ui,sans-serif}
 .wxd .lo{font-size:13px;color:var(--muted)}
 .tb{position:relative;width:8px;height:56px;border-radius:4px;background:var(--line)}
 .tb i{left:0;right:0;background:linear-gradient(0deg,#4f9bff,#ffb03a,#ff6a3d)}
@@ -217,13 +224,20 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .ticket .pill.wide svg{margin-top:2px}
 .ticket .pill.hl b{margin-right:2px;white-space:nowrap}
 .ticket .ckp{margin-top:6px}
+.ticket .ckp,.ticket .ref,.ticket .links{margin-top:18px}
+.ticket .pills.ckp{margin-top:30px}
+.ticket .pills.bagrow{margin-top:18px}
+.ticket .epnr{margin-left:auto;display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-weight:600;font-size:13px}
+.ticket .epnr b{color:var(--ink);font-size:16px;letter-spacing:.06em;user-select:all}
+.ticket .tnote{margin-top:2px}
+.ticket .bagrow{margin-top:0}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ticket .pill.hl{color:color-mix(in srgb, var(--c) 30%, #fff);background:color-mix(in srgb, var(--c) 40%, var(--surface))}:root:not([data-theme="light"]) .ticket .pill.hl svg{color:inherit}}
 :root[data-theme="dark"] .ticket .pill.hl{color:color-mix(in srgb, var(--c) 30%, #fff);background:color-mix(in srgb, var(--c) 40%, var(--surface))}
 .ticket .airline{flex-wrap:wrap;row-gap:2px}
 .airline > span{white-space:nowrap}
 .airline .fno{color:var(--ink);font-weight:800;font-size:13px;font-variant-numeric:tabular-nums;padding:2px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
 .legline .tm{font:600 15px "Figtree",system-ui,sans-serif;color:var(--muted);margin-left:-4px}
-.ticket .pills{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ticket .pills{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:13.5px;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
 .pill svg{width:15px;height:15px;color:var(--muted)}
 .pill b{font-weight:700}
@@ -232,12 +246,16 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .pill.bagp{background:var(--surface)}
 .ticket .airline{grid-column:1;grid-row:2;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--muted)}
 .ticket .status{grid-column:2;grid-row:2}
-.ticket .eyebrow{grid-column:1/-1;grid-row:1;display:flex;align-items:center;justify-content:flex-start;gap:8px 12px;flex-wrap:wrap;margin:-14px -16px 8px;padding:9px 16px;border-radius:13px 13px 0 0;background:var(--cs);color:var(--c);font-size:14px;font-weight:700;border-bottom:1px solid var(--line)}
+.ticket .eyebrow{grid-column:1/-1;grid-row:1;display:flex;align-items:center;justify-content:flex-start;gap:8px 12px;flex-wrap:wrap;margin:-20px -24px 6px;padding:12px 24px;border-radius:15px 15px 0 0;background:var(--cs);color:var(--c);font-size:14px;font-weight:700;border-bottom:1px solid var(--line)}
 .ticket .eyebrow .ed{display:inline-flex;align-items:center;gap:7px}
 .ticket .eyebrow .ed svg{width:16px;height:16px}
 .ticket .eyebrow .cd{font-weight:600;font-variant-numeric:tabular-nums;padding:2px 10px;border-radius:999px;background:var(--surface);color:var(--ink);border:1px solid var(--line)}
 .ticket .eyebrow .cd.soon{background:var(--todo);border-color:var(--todo);color:#fff;animation:pulse 2s ease-in-out infinite}
 .ticket .eyebrow .cd.past{color:var(--muted)}
+.allogo{display:inline-flex;align-items:center;height:30px;padding:3px 8px;border-radius:8px;background:#fff;border:1px solid var(--line)}
+.allogo img{height:22px;width:auto;display:block}
+.allogo.round{padding:0;border:0;background:none;height:30px}
+.allogo.round img{height:30px}
 .xconn{display:flex;align-items:center;gap:10px;margin:-2px 0}
 .xconn .xline{flex:1;border-top:2px dashed var(--line);min-width:20px}
 .xconn .xlab{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:2px dashed var(--line);border-radius:999px;background:var(--surface);font-size:14px;color:var(--ink);white-space:nowrap}
@@ -280,7 +298,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .ptab[data-city="lgk"][aria-selected="true"] small{color:#2E2300}
 /* Stay payment */
 .pay{grid-column:2/4;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:8px 0 4px;padding:10px 12px;border-radius:10px;background:var(--todo-soft);color:var(--todo)}
-.pay b{font:800 20px "Bricolage Grotesque",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.pay b{font:800 20px "Fredoka",system-ui,sans-serif;font-variant-numeric:tabular-nums}
 .pay span{font-size:13px}
 .pay.paid{background:var(--ok-soft);color:var(--ok)}
 .pay.paid b{font-size:16px}
@@ -292,7 +310,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .jump a svg{width:14px;height:14px;margin-left:5px;vertical-align:-2px;color:var(--muted)}
 /* Day to-do */
 .dtodo{background:var(--cs);border-radius:14px;padding:12px 14px 6px;margin:0 0 12px}
-.dtodo h4{margin:0 0 4px;font:700 15px "Bricolage Grotesque",system-ui,sans-serif;color:var(--c);display:flex;align-items:center;gap:6px}
+.dtodo h4{margin:0 0 4px;font:700 15px "Fredoka",system-ui,sans-serif;color:var(--c);display:flex;align-items:center;gap:6px}
 .dtodo h4 svg{width:17px;height:17px}
 .dtodo ul{list-style:none;margin:0;padding:0}
 .dtodo label{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer;font-size:15px}
@@ -327,7 +345,7 @@ footer{padding:26px 0 40px;color:var(--muted);font-size:13px}
   <section id="activities"><h2>Activities</h2><div class="ptabs" role="tablist" id="atabs"></div><div class="stays" id="actList" role="tabpanel"></div></section>
   <section id="places"><h2>Places to go</h2><div class="ptabs" role="tablist" id="ptabs"></div><div id="plist" role="tabpanel"></div></section>
   <section id="food"><h2>Food &amp; drinks</h2><div class="ptabs" role="tablist" id="ftabs"></div><div id="flist" role="tabpanel"></div></section>
-  <section id="days"><h2>Day by day</h2><p class="wxnote">Sat 14 – Wed 18: forecast as of 11 Nov. Thu 19 – Sun 22: typical November weather until the forecast reaches those dates. 📍 shows the place each day’s weather is for.</p><div class="wxstrip" id="wxStrip"></div><div id="dayList"></div></section>
+  <section id="days"><h2>Day by day</h2><p class="wxnote" id="wxNote">Sat 14 – Wed 18: forecast as of 11 Nov. Thu 19 – Sun 22: typical November weather until the forecast reaches those dates. 📍 shows the place each day’s weather is for.</p><div class="wxstrip" id="wxStrip"></div><div id="dayList"></div></section>
   <section id="budget"><h2>Budget</h2><div class="budget" id="budgetList"></div></section>
   <section id="checklist"><h2>Still to do</h2><ul class="todo" id="todoList"></ul></section>
   <footer>Booking numbers and ticks are saved in this browser only. Times for unbooked flights are the shortlisted ones. Malaysia costs use ₹23.31 per RM. Baggage depends on the fare you bought, so your e-ticket wins over anything here.</footer>
@@ -429,6 +447,8 @@ const AL = {
   MH:{n:"Malaysia Airlines", c:"#1e3a6e"},
   AK:{n:"AirAsia", c:"#d0121b"}
 };
+const LOGO = {"MH": "data:image/png;base64,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", "AI": "data:image/png;base64,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", "IX": "data:image/png;base64,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", "AK": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAflBMVEXjHyDsZWb0r7D4z9DrYGHyV1foaWr8+fnkJCSyGRnlLi7tiYjtNzfmmJaqVVUA//9///9/f3/sP0D7g4P3v8DjJSYAAADhGBn++vrqNTbqVlf75+foRkf/AADvhobxlZUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEkve/AAAAIHRSTlP08f//VKQOBQUDX1KeHwMBAgL/l//+AP7//Pv/+AH//96tmU0AAAJjSURBVHjajZXrmqIwDIbTlgIqzGF32/REe/93uV/EURydkf7wEfI2+ZqGhPxt9Yv38+mvTamUlKw99d4v/Qag679h8cPJqugcMxGzc5FsN/hleIQP3p8sSHLbFW13Nt3Do5+B3pMXfIZxC0NZV9wPK3Z+XDYw2KduZZGLR7+BR9+5X9dxVSLw+P6CBf0+rvCbP8VXsOskJ4SrGNQrlBzNy6en4Q0svaYVQOr3iFiF9PT2WsTF+XAgOL6K4Hsz87e7oQ97e9Zqa+Zi4vYw0wfNVxWsg97AHE2420w9XVVwC6HyJrQJofBWXEdfKjgFnSOn9PXcsjFnVuWyurBX2GWtNUdRwuteZaCCAGvIl/ATJb4IzjErcilGl9a9KWBb5IgtOlS8KhdYHEFH07FkkxNDhGuhRp1VC84Y/AgsAVhOjvNoE5I4YVYBz7lpnWpQNUSjEmKQfCBKw1azJtMQgWKVjaAoaNJGCV4bPgJKkl+Dty5XkBkZkCiKUkjUcEoDYw4aPv8AdqpUGOCggarsVPxn4MI03XINpugazzdXJHWMo4vM1HJquAc4VQxY5ayQGuRyzfN0huEYSaoRiWJJqMmSH8RwvC0ui+uGY7OtOaSx8feaW6+7VzDWu2pra008FHQvJRrbnZFTe1r9KFG0F/616LfFf9j9Wc0HOneufR/suLYCt7MV+M9l3tE2qJcmI726292+pDEedzdGabnH3S0XnV/oH5s52H47JsbfdHd+WR4G0HPU9t8G0DraOvvgPU7PRpuXUENnRTjR5QA0ydBcnkzYdRz3nZ1KibGUyXb9+TS39R9ATpJHYqybxwAAAABJRU5ErkJggg=="};
+const alLogo = code => LOGO[code] ? `<span class="allogo ${code === "AK" ? "round" : ""}"><img src="${LOGO[code]}" alt="${AL[code].n}"></span>` : "";
 const alBadge = (code, small, label) => `<span class="alb${small ? " sm" : ""}" style="background:${AL[code].c}"${label ? "" : ' aria-hidden="true"'}>${ic("plane")}${label || code}</span>`;
 const fullDate = f => {
   const [y, m, d] = f.dep.slice(0, 10).split("-").map(Number);
@@ -695,25 +715,24 @@ document.getElementById("packRule").innerHTML =
 
 document.getElementById("flightList").innerHTML = flights.map(f => `
   <div class="ticket" style="--c:${AL[f.al].c};--cs:color-mix(in srgb, ${AL[f.al].c} 13%, var(--surface));--on-c:#fff">
-    <div class="eyebrow"><span class="ed">${ic("cal")}${fullDate(f)}</span><span class="cd" data-dep="${f.dep}"></span></div>
-    <div class="airline">${alBadge(f.al, false, fno(f))}<span>${AL[f.al].n}</span></div>
+    <div class="eyebrow"><span class="ed">${ic("cal")}${fullDate(f)}</span><span class="cd" data-dep="${f.dep}"></span><span class="epnr">PNR <b>${f.pnr}</b><button type="button" class="copy" data-copy="${esc(f.pnr)}" aria-label="Copy PNR ${esc(f.pnr)}">${ic("copy")}<span>Copy</span></button></span></div>
+    <div class="airline">${alLogo(f.al)}${alBadge(f.al, false, fno(f))}</div>
     <div class="legline">
       <span class="lp">${EMO_CODE[f.from]||""}${f.from}${tmTag(f.ft)}<span class="lt">${legTimes(f)[0]}</span></span>
       ${ic("arrow")}
       <span class="lp">${EMO_CODE[f.to]||""}${f.to}${tmTag(f.tt)}<span class="lt">${legTimes(f)[1]}</span></span>
     </div>
     <span class="status ok">Booked</span>
-    <div class="pills">
-      ${f.time.split(", ")[1] ? `<span class="pill">${ic("seat")}${f.time.split(", ")[1].replace("seat ","Seat ")}</span>` : ""}
-      <span class="pill bagp">${ic("bag")}<b>Cabin</b>${f.bag.cabin}</span>
-      <span class="pill bagp">${ic("bag")}<b>Checked</b>${f.bag.checked}</span>
-    </div>
     <div class="pills ckp">
       ${f.ci ? (f.cio ? `<span class="pill ckw" data-open="${f.cio}" data-close="${f.cic}"></span>` : `<span class="pill hl wide">${ic("check")}<b>Check-in</b>${f.ci[2]}</span>`) : ""}
       ${(f.cut||[]).filter(x => !/online check-in/.test(x[1])).map(x => `<span class="pill hl">${ic("clock")}<b>${x[0]}</b>${x[1]}</span>`).join("")}
     </div>
     ${f.note?`<div class="tnote">${f.note}</div>`:""}
-    ${refField(f.key, "PNR", f.pnr)}
+    <div class="pills bagrow">
+      ${f.time.split(", ")[1] ? `<span class="pill">${ic("seat")}${f.time.split(", ")[1].replace("seat ","Seat ")}</span>` : ""}
+      <span class="pill bagp">${ic("bag")}<b>Cabin</b>${f.bag.cabin}</span>
+      <span class="pill bagp">${ic("bag")}<b>Checked</b>${f.bag.checked}</span>
+    </div>
     <div class="links">${f.ci?cta(f.ci[0], f.ci[1]):""}${f.cta?`<a class="chip" href="${f.cta[1]}" target="_blank" rel="noopener">${ic("ticket")}${f.cta[0]}</a>`:""}${chip(maps(f.a[0]), f.from+" airport")}${chip(maps(f.a[1]), f.to+" airport")}</div>
   </div>`).join("");
 
@@ -723,6 +742,47 @@ const sepTxt = (first) => first ? "🏙️ First days · Sat 14 – Mon 16" : "�
 const klSep = (city, i, late, tag) => city !== "kl" ? "" : i === 0 && late !== 0 ? `<${tag} class="sep"><span>${sepTxt(true)}</span></${tag}>` : i === late ? `<${tag} class="sep"><span>${sepTxt(false)}</span></${tag}>` : "";
 document.querySelector("#flightList .ticket").insertAdjacentHTML("afterend",
   `<div class="xconn" aria-label="Transfer from Delhi T1 to Delhi T3"><span class="xline"></span><span class="xlab">🚌 <b>DEL T1</b> → <b>DEL T3</b><small>shuttle bus</small></span><span class="xline"></span></div>`);
+
+/* Live weather: Open-Meteo, refreshed on each visit (cached 3 h). Falls back to stored values when blocked. */
+const WX_PLACES = {del:[28.61,77.21,"Delhi"], kl:[3.14,101.69,"Kuala Lumpur"], pen:[5.41,100.33,"George Town"], lgk:[6.29,99.73,"Pantai Cenang"]};
+const WX_DAYS = {"sat-14":["del","2026-11-14","Delhi (daytime)"],"sun-15":["kl","2026-11-15"],"mon-16":["pen","2026-11-16"],"tue-17":["pen","2026-11-17"],"wed-18":["pen","2026-11-18"],"thu-19":["lgk","2026-11-19"],"fri-20":["lgk","2026-11-20"],"sat-21":["kl","2026-11-21"],"sun-22":["del","2026-11-22"]};
+const wmo = c => c === 0 ? ["☀️","Sunny"] : c <= 2 ? ["🌤️","Partly cloudy"] : c === 3 ? ["☁️","Cloudy"] : c <= 48 ? ["🌫️","Fog / haze"]
+  : c <= 57 ? ["🌦️","Drizzle"] : c <= 67 ? ["🌧️","Rain"] : c <= 77 ? ["🌨️","Snow"] : c <= 82 ? ["🌦️","Showers"] : ["⛈️","Thunderstorms"];
+const wxAdvice = (p, code) => code >= 95 ? "Thunderstorms likely: plan indoor time for the afternoon and keep an umbrella."
+  : p >= 70 ? "High chance of rain: carry an umbrella and keep the afternoon flexible."
+  : p >= 40 ? "Showers possible, usually in the afternoon." : "Mostly dry: a good day to be outdoors.";
+async function loadLiveWeather() {
+  let cache = {}; try { cache = JSON.parse(localStorage.getItem("my-trip-wx") || "{}"); } catch (e) {}
+  const fresh = cache.t && Date.now() - cache.t < 3 * 3600e3;
+  let data = fresh ? cache.d : {};
+  if (!fresh) {
+    try {
+      await Promise.all(Object.entries(WX_PLACES).map(async ([k, [lat, lon]]) => {
+        const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=16`);
+        if (!r.ok) throw new Error(r.status);
+        data[k] = (await r.json()).daily;
+      }));
+      try { localStorage.setItem("my-trip-wx", JSON.stringify({t: Date.now(), d: data})); } catch (e) {}
+      cache.t = Date.now();
+    } catch (e) { return; }
+  }
+  let n = 0;
+  days.forEach(x => {
+    const m = WX_DAYS[x.id], d = m && data[m[0]]; if (!d || !x.wx) return;
+    const i = d.time.indexOf(m[1]); if (i < 0) return;
+    const code = d.weather_code[i], p = d.precipitation_probability_max[i], [e, desc] = wxo = wmo(code);
+    x.wx = {...x.wx, e, hi: Math.round(d.temperature_2m_max[i]), lo: Math.round(d.temperature_2m_min[i]),
+      p: p == null ? null : Math.round(p), rn: desc, note: wxAdvice(p || 0, code), fc: true, loc: m[2] || WX_PLACES[m[0]][2]};
+    const box = document.querySelector(`#${x.id} .wxbox`); if (box) box.outerHTML = wxBox(x);
+    n++;
+  });
+  if (!n) return;
+  renderWxStrip();
+  const t = new Date(cache.t);
+  document.getElementById("wxNote").textContent = `Live forecast from Open-Meteo, updated ${t.toLocaleString([], {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"})}. It refreshes every time you open the page. 📍 shows the place each day’s weather is for.`;
+}
+let wxo;
+loadLiveWeather();
 tickCountdowns();
 setInterval(tickCountdowns, 30000);
 const stayCard = s => `
@@ -747,7 +807,8 @@ stabs.addEventListener("click", e => { const b = e.target.closest(".ptab"); if (
 showStays("kl");
 
 const tpos = t => Math.round((t - 10) / 25 * 100);
-document.getElementById("wxStrip").innerHTML = days.map(x => {
+const wxBox = x => x.wx?`<div class="wxbox"><div class="wx"><span class="we">${x.wx.e}</span><b>${x.wx.hi}°</b><span class="hb"><i style="left:${tpos(x.wx.lo)}%;width:${tpos(x.wx.hi)-tpos(x.wx.lo)}%"></i></span><span>${x.wx.lo}°</span><span class="rn">${x.wx.p!=null?"💧 "+x.wx.p+"% · ":""}${x.wx.rn}</span><span class="loc">📍 ${x.wx.loc}</span><span class="src ${x.wx.fc?"fc":""}">${x.wx.fc?"Forecast":"Typical"}</span></div><p class="wxn">${x.wx.note}</p></div>`:"";
+const renderWxStrip = () => { document.getElementById("wxStrip").innerHTML = days.map(x => {
   const w = x.wx; if (!w) return "";
   const c = CITY[x.city];
   return `<a class="wxd" href="#${x.id}" style="--c:${c.c};--cs:${c.cs}">
@@ -761,12 +822,13 @@ document.getElementById("wxStrip").innerHTML = days.map(x => {
     <span class="src ${w.fc?"fc":""}">${w.fc?"Forecast":"Typical"}</span>
     <span class="ce">${(x.move ? x.move.map(p => (EMO_CODE[{blr:"BLR",del:"DEL",kl:"KL",pen:"PEN",lgk:"LGK"}[p]]||"").trim()).join("→") : EMO[x.city])}</span>
   </a>`;
-}).join("");
+}).join(""); };
+renderWxStrip();
 
 document.getElementById("dayList").innerHTML = days.map(x => `
   <article class="day" id="${x.id}" style="--c:${CITY[x.city].c};--cs:${CITY[x.city].cs}">
     <div class="dayhead"><h3>${x.d}</h3>${x.move ? `<span class="move">${x.move.map(p => { const q = PLACE[p]; return `<span class="city" style="--c:${q.c};--cs:${q.cs}">${q.n}</span>`; }).join(ic("plane"))}</span>` : `<span class="city">${CITY[x.city].name}</span>`}</div>
-    ${x.wx?`<div class="wxbox"><div class="wx"><span class="we">${x.wx.e}</span><b>${x.wx.hi}°</b><span class="hb"><i style="left:${tpos(x.wx.lo)}%;width:${tpos(x.wx.hi)-tpos(x.wx.lo)}%"></i></span><span>${x.wx.lo}°</span><span class="rn">${x.wx.p!=null?"💧 "+x.wx.p+"% · ":""}${x.wx.rn}</span><span class="loc">📍 ${x.wx.loc}</span><span class="src ${x.wx.fc?"fc":""}">${x.wx.fc?"Forecast":"Typical"}</span></div><p class="wxn">${x.wx.note}</p></div>`:""}
+    ${wxBox(x)}
     <p class="daysum">${x.sum}</p>
     ${x.todo?`<div class="dtodo"><h4>${ic("check")}To do</h4><ul>${x.todo.map((t, i) => {
       const k = x.id + "-" + i;
