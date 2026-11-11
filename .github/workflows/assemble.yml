@@ -1,0 +1,43 @@
+name: assemble
+on:
+  push:
+    paths: [".github/workflows/assemble.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble
+        run: |
+          mkdir -p "$(dirname 'index.html')"
+          cat $(ls .github/upload/q*.txt | sort) | tr -d '\n\r ' | base64 -d | gunzip > 'index.html.new'
+          echo "5d5d19ad07b968bba1bef2dec5620ca3d6cb08b171c53843167c1ac78f861226  index.html.new" | sha256sum -c -
+          mv 'index.html.new' 'index.html'
+          rm -rf .github/upload
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "assemble: update index.html" && git push || echo "nothing to commit"
+      - name: Site
+        run: |
+          mkdir _site
+          tar --exclude=./.git --exclude=./.github --exclude=./_site -cf - . | tar -xf - -C _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
