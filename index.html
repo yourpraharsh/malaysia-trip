@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Malaysia, 14–21 Nov</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F8F7; --surface:#FFFFFF; --ink:#10302F; --muted:#587170; --line:#D9E3E1;
+  --kl:#2B78B8; --kl-soft:#E2EFFB;
+  --pen:#8A5A32; --pen-soft:#F3E6D8;
+  --lgk:#A97900; --lgk-soft:#FFF2C2;
+  --ok:#0F7F6B; --ok-soft:#DDF3EE; --todo:#B4500E; --todo-soft:#FCEBDD;
+  --on-c:#FFFFFF; --focus:#1E6FD9;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0C1B1C; --surface:#132627; --ink:#E6EFED; --muted:#98AFAC; --line:#24393A;
+    --kl:#7DB9EE; --kl-soft:#15283A;
+    --pen:#D6A77C; --pen-soft:#2E2319;
+    --lgk:#F2CB55; --lgk-soft:#322A10;
+    --ok:#52C7AC; --ok-soft:#123329; --todo:#F2A066; --todo-soft:#36251A;
+    --on-c:#0C1B1C; --focus:#7FB2FF;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0C1B1C; --surface:#132627; --ink:#E6EFED; --muted:#98AFAC; --line:#24393A;
+  --kl:#7DB9EE; --kl-soft:#15283A;
+  --pen:#D6A77C; --pen-soft:#2E2319;
+  --lgk:#F2CB55; --lgk-soft:#322A10;
+  --ok:#52C7AC; --ok-soft:#123329; --todo:#F2A066; --todo-soft:#36251A;
+  --on-c:#0C1B1C; --focus:#7FB2FF;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Figtree",system-ui,sans-serif;margin:0;line-height:1.1}
+svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.hero{padding-top:36px;padding-bottom:20px}
+.hero h1{font-size:clamp(40px,10vw,68px);font-weight:800;letter-spacing:-.02em}
+.hero p{margin:10px 0 0;color:var(--muted);max-width:52ch}
+
+.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.jump .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+.jump .wrap::-webkit-scrollbar{display:none}
+.jump a{flex:none;text-decoration:none;font-weight:600;font-size:14px;padding:7px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);white-space:nowrap}
+.jump a span{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+
+section{padding:30px 0 6px}
+section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
+
+.flights,.stays{display:grid;gap:10px}
+.ticket{display:grid;grid-template-columns:1fr auto;gap:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;position:relative}
+.ticket::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--c)}
+.ticket .legline{display:flex;align-items:center;gap:10px;font:700 22px "Bricolage Grotesque",system-ui,sans-serif}
+.ticket .legline svg{width:20px;height:20px;color:var(--muted)}
+.ticket .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 16px;color:var(--muted);font-size:14px}
+.ticket .meta b{color:var(--ink);font-weight:600}
+.links{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:5px 10px;border-radius:999px;text-decoration:none;border:1px solid var(--line);background:var(--bg)}
+.chip svg{width:15px;height:15px}
+.cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;text-decoration:none;background:var(--c);color:var(--on-c);border:1px solid var(--c)}
+.cta svg{width:15px;height:15px}
+.status{align-self:start;font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.status.ok{background:var(--ok-soft);color:var(--ok)}
+.status.todo{background:var(--todo-soft);color:var(--todo)}
+.ref{grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:8px}
+.ref label{font-size:13px;color:var(--muted);flex:none}
+.ref input{flex:1;min-width:0;max-width:260px;font:700 14px "Figtree",system-ui,sans-serif;letter-spacing:.03em;color:var(--ink);background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:6px 10px}
+.ref input:not(:placeholder-shown){border-style:solid;border-color:var(--c)}
+.ref input::placeholder{font-weight:400;letter-spacing:0;color:var(--muted)}
+
+.stay{display:grid;grid-template-columns:auto 1fr auto;gap:2px 14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.stay .ico{grid-row:1/4;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--cs);color:var(--c)}
+.stay .ico svg{width:22px;height:22px}
+.stay h3{font-size:19px;font-weight:700}
+.stay .when{color:var(--muted);font-size:14px}
+.stay .note{grid-column:2/4;font-size:14px;color:var(--muted)}
+.stay .links,.stay .ref{grid-column:2/4}
+
+.day{margin:0 0 22px;border-left:3px solid var(--c);padding-left:16px}
+.dayhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.dayhead h3{font-size:24px;font-weight:800}
+.city{font-size:13px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--cs);color:var(--c)}
+.daysum{color:var(--muted);margin:0 0 10px;font-size:15px}
+.stops{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.stops li + li{border-top:1px solid var(--line)}
+.stops .row{display:grid;grid-template-columns:74px 22px 1fr 20px;gap:10px;align-items:start;padding:12px 14px;text-decoration:none}
+.stops .row:hover{background:var(--bg)}
+.stops .t{font-size:13px;font-weight:600;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.stops .k{color:var(--c);padding-top:1px}
+.stops .n{font-weight:600}
+.stops .d{display:block;font-weight:400;font-size:14px;color:var(--muted)}
+.stops .go{color:var(--muted);padding-top:2px}
+.stops .go svg{width:16px;height:16px}
+.stops .act{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 12px 130px}
+.stops .act .ref{flex-basis:100%;margin-top:2px}
+
+.todo{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.todo li + li{border-top:1px solid var(--line)}
+.todo li{display:flex;align-items:center;gap:10px;padding-right:14px;--c:var(--ink)}
+.todo label{flex:1;display:flex;gap:12px;align-items:flex-start;padding:12px 14px;cursor:pointer}
+.todo input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--ok);flex:none}
+.todo .x{display:block;font-size:14px;color:var(--muted)}
+.todo input:checked + span .n{text-decoration:line-through;color:var(--muted)}
+
+/* Journey strip */
+.journey{display:flex;align-items:flex-start;overflow-x:auto;padding:6px 0 14px;margin:26px -18px 0;padding-left:18px;padding-right:18px;scrollbar-width:thin}
+.jn{flex:none;width:70px;text-align:center}
+.jn .dot{width:18px;height:18px;border-radius:50%;margin:0 auto 8px;background:var(--c)}
+.jn b{display:block;font:800 20px/1.1 "Bricolage Grotesque",system-ui,sans-serif}
+.jn small{display:block;font-size:12px;color:var(--muted);line-height:1.3}
+.jn .nt{display:inline-block;margin-top:5px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--cs);color:var(--c);white-space:nowrap}
+.jl{flex:1 0 100px;text-align:center;padding:0 2px}
+.jl .ln{position:relative;height:18px;margin-bottom:6px}
+.jl .ln::before{content:"";position:absolute;left:0;right:0;top:8px;border-top:2px dashed var(--line)}
+.jl .ln svg{position:relative;width:18px;height:18px;padding:0 3px;box-sizing:content-box;background:var(--bg);color:var(--muted)}
+.jl b{display:block;font-size:13px;font-weight:700}
+.jl span{display:block;font-size:12px;color:var(--muted);line-height:1.35}
+
+/* Flight extras */
+.ticket .term{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px}
+.ticket .term span{display:inline-flex;align-items:center;gap:6px}
+.ticket .term svg{width:16px;height:16px;color:var(--muted)}
+.ticket .bag{grid-column:1/-1;display:flex;gap:8px;align-items:flex-start;font-size:14px;margin-top:4px}
+.ticket .bag svg{width:16px;height:16px;margin-top:3px;color:var(--muted)}
+.ticket .tnote{grid-column:1/-1;font-size:13px;color:var(--muted);margin-top:2px}
+.callout{display:flex;gap:12px;align-items:flex-start;background:var(--todo-soft);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.callout svg{width:22px;height:22px;color:var(--todo);margin-top:1px}
+.callout p{margin:0;font-size:15px}
+.callout b{font-weight:700}
+
+/* Budget */
+.budget{display:grid;gap:12px}
+.bcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.bcard h3{font-size:18px;font-weight:700;padding:14px 16px 4px}
+.bcard .sub{padding:0 16px 10px;font-size:14px;color:var(--muted);margin:0}
+.brow{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:10px 16px;border-top:1px solid var(--line)}
+.brow .l{font-weight:600}
+.brow .d{grid-column:1;font-size:13px;color:var(--muted)}
+.brow .a{grid-row:1/4;grid-column:2;align-self:center;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.brow.total{background:var(--bg)}
+.brow.total .l,.brow.total .a{font-size:17px}
+.grand{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;background:var(--ink);color:var(--bg);border-radius:14px;padding:16px}
+.grand .l{font:700 18px "Bricolage Grotesque",system-ui,sans-serif}
+.grand .a{font:800 26px "Bricolage Grotesque",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.grand .d{grid-column:1/-1;font-size:13px;opacity:.8}
+.bst{display:block;width:max-content;margin:4px 0 0 auto;font:700 11px "Figtree",system-ui,sans-serif;padding:2px 8px;border-radius:999px}
+.bst.ok{background:var(--ok-soft);color:var(--ok)}
+.bst.todo{background:var(--todo-soft);color:var(--todo)}
+.bst.part{background:var(--todo-soft);color:var(--todo)}
+.brow.st-ok{box-shadow:inset 4px 0 0 var(--ok)}
+.brow.st-part{box-shadow:inset 4px 0 0 var(--todo)}
+.brow.st-todo{box-shadow:inset 4px 0 0 var(--todo)}
+.brow .a{text-align:right}
+.pp{display:flex;align-items:center;gap:8px;color:var(--todo)!important;font-weight:600}
+.pbar{width:70px;height:6px;border-radius:3px;background:var(--line);position:relative;overflow:hidden;flex:none}
+.pbar i{position:absolute;left:0;top:0;bottom:0;background:var(--todo)}
+.gbar{grid-column:1/-1;height:10px;border-radius:5px;background:rgba(255,255,255,.18);overflow:hidden;margin-top:6px}
+.gbar i{display:block;height:100%;background:var(--ok)}
+.gleg{grid-column:1/-1;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;font-size:14px}
+.jn .emo{font-size:22px;line-height:18px;height:18px;margin:0 auto 8px}
+.jci{display:inline-block;margin-top:4px;font-size:12px;font-weight:700;color:var(--ink)}
+.tlink{font-weight:700;color:var(--c);white-space:nowrap}
+.wxbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0 10px}
+.wx{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.wx .loc{margin-left:auto}
+.wx .we{font-size:26px;line-height:1}
+.wx b{color:var(--ink);font:800 18px "Bricolage Grotesque",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.hb{position:relative;width:84px;height:6px;border-radius:3px;background:var(--line)}
+.hb i,.tb i{position:absolute;border-radius:3px;background:linear-gradient(90deg,#4f9bff,#ffb03a,#ff6a3d)}
+.hb i{top:0;bottom:0}
+.rn{font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--cs);color:var(--c);white-space:nowrap}
+.wxn{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.wxstrip{display:flex;gap:8px;overflow-x:auto;padding:2px 0 18px;margin-bottom:6px}
+.wxd{flex:1 0 78px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px 12px;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:14px;text-decoration:none}
+.wxd .dn{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.wxd .we{font-size:30px;line-height:1}
+.wxd .hi{font:800 18px "Bricolage Grotesque",system-ui,sans-serif}
+.wxd .lo{font-size:13px;color:var(--muted)}
+.tb{position:relative;width:8px;height:56px;border-radius:4px;background:var(--line)}
+.tb i{left:0;right:0;background:linear-gradient(0deg,#4f9bff,#ffb03a,#ff6a3d)}
+.wxd .rn{font-size:10px;padding:2px 6px;text-align:center;white-space:normal;line-height:1.25}
+.wxd .ce{font-size:13px;white-space:nowrap}
+.loc{font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap}
+.wxd .loc{text-align:center;white-space:normal;line-height:1.2}
+.src{font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 6px;border-radius:4px;border:1px dashed var(--line);color:var(--muted)}
+.src.fc{border-style:solid;border-color:var(--ok);color:var(--ok)}
+.wxnote{font-size:14px;color:var(--muted);margin:-6px 0 16px}
+.drive{display:inline-flex;align-items:center;gap:10px;margin-top:16px;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:700;font-size:15px;text-decoration:none}
+.drive span{font-weight:500;font-size:13px;opacity:.75}
+.sechead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.sechead h2{font-size:26px;font-weight:700;margin:0}
+.ptabs{display:flex;gap:8px;margin-bottom:12px}
+.ticket .legline{flex-wrap:wrap;row-gap:4px}
+@media (max-width:480px){.ticket .legline{flex-direction:column;align-items:flex-start;gap:2px}.ticket .legline > svg{transform:rotate(90deg);margin-left:6px;width:16px;height:16px}}
+.ticket .lp{display:inline-flex;align-items:baseline;gap:8px;white-space:nowrap}
+.ticket .lt{font:700 17px "Figtree",system-ui,sans-serif;color:var(--ink);font-variant-numeric:tabular-nums;padding:1px 8px;border-radius:6px;background:var(--bg);border:1px solid var(--line)}
+.airline .fdate{display:inline-flex;align-items:center;gap:5px;color:var(--ink);font-weight:700}
+.airline .fdate svg{width:15px;height:15px;color:var(--muted)}
+.alb{font-variant-numeric:tabular-nums}
+.ticket .pill.wide{white-space:normal;align-items:flex-start;border-radius:12px;line-height:1.4;font-weight:500}
+.ticket .pill.wide svg{margin-top:2px}
+.ticket .pill.hl b{margin-right:2px;white-space:nowrap}
+.ticket .ckp{margin-top:6px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ticket .pill.hl{color:color-mix(in srgb, var(--c) 30%, #fff);background:color-mix(in srgb, var(--c) 40%, var(--surface))}:root:not([data-theme="light"]) .ticket .pill.hl svg{color:inherit}}
+:root[data-theme="dark"] .ticket .pill.hl{color:color-mix(in srgb, var(--c) 30%, #fff);background:color-mix(in srgb, var(--c) 40%, var(--surface))}
+.ticket .airline{flex-wrap:wrap;row-gap:2px}
+.airline > span{white-space:nowrap}
+.airline .fno{color:var(--ink);font-weight:800;font-size:13px;font-variant-numeric:tabular-nums;padding:2px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+.legline .tm{font:600 15px "Figtree",system-ui,sans-serif;color:var(--muted);margin-left:-4px}
+.ticket .pills{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:13.5px;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+.pill svg{width:15px;height:15px;color:var(--muted)}
+.pill b{font-weight:700}
+.pill.hl{background:var(--cs);border-color:transparent;color:var(--c);font-weight:700}
+.pill.hl svg{color:var(--c)}
+.pill.bagp{background:var(--surface)}
+.ticket .airline{grid-column:1;grid-row:1;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--muted)}
+.ticket .status{grid-column:2;grid-row:1}
+.ticket .legline{grid-column:1/-1}
+.alb{display:inline-flex;align-items:center;gap:4px;color:#fff;font:800 12px "Figtree",system-ui,sans-serif;letter-spacing:.04em;padding:3px 8px 3px 6px;border-radius:6px;vertical-align:middle}
+.alb svg{width:13px;height:13px;stroke:#fff}
+.alb.sm{font-size:10px;padding:1px 5px 1px 4px;border-radius:4px}
+.alb.sm svg{width:10px;height:10px}
+.jl span.alb{display:inline-flex;color:#fff;line-height:1.4}
+.cut{grid-column:1/-1;flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:6px 0 2px;padding:9px 12px 9px 36px;border-radius:10px;background:var(--todo-soft);color:var(--todo);font-size:13px;position:relative}
+.cut::before{content:"⏰";position:absolute;left:11px;top:8px;font-size:15px}
+.cut b{font-size:15px;font-variant-numeric:tabular-nums;margin-right:2px}
+.copy{display:inline-flex;align-items:center;gap:5px;flex:none;font:600 12px "Figtree",system-ui,sans-serif;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.copy svg{width:14px;height:14px}
+.copy.done{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.opts{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.opts > span{font-size:12px;font-weight:700;color:var(--muted);margin-right:2px}
+.optc{font-size:12.5px;padding:4px 9px;border-color:var(--cs);background:var(--surface)}
+.sep{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--c,var(--muted))}
+.sep::before,.sep::after{content:"";flex:1;border-top:2px dashed var(--line)}
+.stops li.sep{background:var(--bg)}
+.stays > .sep{padding:4px 0}
+.ptab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 15px "Figtree",system-ui,sans-serif;padding:10px 6px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ptab small{font-weight:500;font-size:12px;color:var(--muted)}
+.ptab[aria-selected="true"]{background:var(--c);border-color:var(--c);color:var(--on-c)}
+.ptab[aria-selected="true"] small{color:var(--on-c);opacity:.85}
+.ptab[data-city="lgk"][aria-selected="true"]{background:#F4C430;border-color:#F4C430;color:#2E2300}
+.ptab[data-city="lgk"][aria-selected="true"] small{color:#2E2300}
+/* Stay payment */
+.pay{grid-column:2/4;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:8px 0 4px;padding:10px 12px;border-radius:10px;background:var(--todo-soft);color:var(--todo)}
+.pay b{font:800 20px "Bricolage Grotesque",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.pay span{font-size:13px}
+.pay.paid{background:var(--ok-soft);color:var(--ok)}
+.pay.paid b{font-size:16px}
+/* Travel-day header */
+.move{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.move > svg{width:16px;height:16px;color:var(--ink)}
+.travel{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--ink);color:var(--bg)}
+.travel svg{width:14px;height:14px}
+.jump a svg{width:14px;height:14px;margin-left:5px;vertical-align:-2px;color:var(--muted)}
+/* Day to-do */
+.dtodo{background:var(--cs);border-radius:14px;padding:12px 14px 6px;margin:0 0 12px}
+.dtodo h4{margin:0 0 4px;font:700 15px "Bricolage Grotesque",system-ui,sans-serif;color:var(--c);display:flex;align-items:center;gap:6px}
+.dtodo h4 svg{width:17px;height:17px}
+.dtodo ul{list-style:none;margin:0;padding:0}
+.dtodo label{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer;font-size:15px}
+.dtodo input{width:18px;height:18px;margin:2px 0 0;flex:none;accent-color:var(--c)}
+.dtodo .w{font-weight:700;font-variant-numeric:tabular-nums;margin-right:4px}
+.dtodo input:checked + span{text-decoration:line-through;opacity:.6}
+footer{padding:26px 0 40px;color:var(--muted);font-size:13px}
+
+@media (max-width:480px){
+  .stops .row{grid-template-columns:62px 20px 1fr 16px;gap:8px;padding:12px}
+  .stops .act{padding:0 12px 12px 110px}
+  .ticket .legline{font-size:20px}
+  .todo li{flex-wrap:wrap;padding-bottom:4px}
+  .todo li .cta{margin:0 0 10px 46px}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap hero">
+  <h1>Malaysia, 14–21 Nov</h1>
+  <p>Solo trip: 🏙️ KL, ☕ Penang’s hostel scene, a 🏖️ Langkawi beach night, then a last 🏙️ KL day. Tap any stop to open it in Google Maps.</p>
+  <a class="drive" href="https://drive.google.com/drive/folders/1SNqWT7ldK_ci-8oG8Kw977ydn64WH8HS" target="_blank" rel="noopener">📁 All booking documents <span>Google Drive ↗</span></a>
+  <div class="journey" id="journey" aria-label="Route with flight dates"></div>
+</header>
+
+<nav class="jump" aria-label="Jump to section"><div class="wrap" id="jump"></div></nav>
+
+<main class="wrap">
+  <section id="flights"><div class="sechead"><h2>Flights</h2><a class="chip" href="https://drive.google.com/drive/folders/1SNqWT7ldK_ci-8oG8Kw977ydn64WH8HS" target="_blank" rel="noopener">📁 Tickets in Drive</a></div><div class="callout" id="packRule"></div><div class="flights" id="flightList"></div></section>
+  <section id="stays"><div class="sechead"><h2>Stays</h2><a class="chip" href="https://drive.google.com/drive/folders/1SNqWT7ldK_ci-8oG8Kw977ydn64WH8HS" target="_blank" rel="noopener">📁 Bookings in Drive</a></div><div class="ptabs" role="tablist" id="stabs"></div><div class="stays" id="stayList" role="tabpanel"></div></section>
+  <section id="activities"><h2>Activities</h2><div class="ptabs" role="tablist" id="atabs"></div><div class="stays" id="actList" role="tabpanel"></div></section>
+  <section id="places"><h2>Places to go</h2><div class="ptabs" role="tablist" id="ptabs"></div><div id="plist" role="tabpanel"></div></section>
+  <section id="food"><h2>Food &amp; drinks</h2><div class="ptabs" role="tablist" id="ftabs"></div><div id="flist" role="tabpanel"></div></section>
+  <section id="days"><h2>Day by day</h2><p class="wxnote">Sat 14 – Wed 18: forecast as of 11 Nov. Thu 19 – Sun 22: typical November weather until the forecast reaches those dates. 📍 shows the place each day’s weather is for.</p><div class="wxstrip" id="wxStrip"></div><div id="dayList"></div></section>
+  <section id="budget"><h2>Budget</h2><div class="budget" id="budgetList"></div></section>
+  <section id="checklist"><h2>Still to do</h2><ul class="todo" id="todoList"></ul></section>
+  <footer>Booking numbers and ticks are saved in this browser only. Times for unbooked flights are the shortlisted ones. Malaysia costs use ₹23.31 per RM. Baggage depends on the fare you bought, so your e-ticket wins over anything here.</footer>
+</main>
+
+<script>
+const ICONS = {
+  plane:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  bed:'<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M12 4v6"/><path d="M2 18h20"/>',
+  hotel:'<path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/><path d="M10 21v-3h4v3"/>',
+  food:'<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+  drink:'<path d="M8 22h8"/><path d="M12 11v11"/><path d="m19 3-7 8-7-8Z"/>',
+  coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2M10 2v2M14 2v2"/>',
+  run:'<circle cx="14" cy="4" r="2"/><path d="m6 22 3-7 3 2v5"/><path d="M5 11l3-3 4 1 3 3 3 1"/><path d="m12 9-2 6"/>',
+  temple:'<path d="M12 2 4 7h16Z"/><path d="M6 7v4M18 7v4M4 11h16"/><path d="M6 11v10M18 11v10M10 21v-5h4v5M3 21h18"/>',
+  mountain:'<path d="m8 3 4 8 5-5 5 15H2L8 3z"/>',
+  beach:'<path d="M17.5 21H3"/><path d="M13.6 9.8 7 21"/><path d="M4 9.2C6.6 4.4 13 3 17.8 6.2c.4.3.4.8 0 1L4.8 10.4c-.5.2-1-.3-.8-1.2Z"/><path d="M20 21a3 3 0 0 0-6 0"/>',
+  sunset:'<path d="M12 10V2M5.6 11.6 4.2 10.2M2 18h2M20 18h2M19.8 10.2l-1.4 1.4M22 22H2M16 18a4 4 0 0 0-8 0"/>',
+  cable:'<path d="M2 4l20 6"/><path d="M12 7v4"/><rect x="7" y="11" width="10" height="8" rx="2"/><path d="M7 15h10"/>',
+  art:'<circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c.9 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2a5.6 5.6 0 0 0 5.4-5.6C22 6 17.5 2 12 2Z"/>',
+  shop:'<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+  train:'<rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M12 3v8M8 21l-2-4M16 21l2-4"/>',
+  sleep:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  ticket:'<path d="M2 9a3 3 0 0 0 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 0 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 17v2M13 11v2"/>',
+  ext:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+  map:'<path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3Z"/><path d="M9 3v15M15 6v15"/>',
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  car:'<path d="M3 17V11l2-5h14l2 5v6"/><path d="M3 11h18"/><path d="M3 17h18"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>',
+  bag:'<rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3"/><path d="M9 20v1M15 20v1"/>',
+  door:'<path d="M3 21h18"/><path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><circle cx="14" cy="12" r="1"/>',
+  scale:'<path d="M12 3v18"/><path d="M5 7h14"/><path d="m5 7-3 7a3 3 0 0 0 6 0Z"/><path d="m19 7-3 7a3 3 0 0 0 6 0Z"/><path d="M8 21h8"/>',
+  cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  seat:'<path d="M6 3v10a2 2 0 0 0 2 2h8"/><path d="M6 15l-1 6M17 15l1 6M8 19h9"/><path d="M10 9h5a2 2 0 0 1 2 2v4"/>',
+  copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  check:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>'
+};
+const ic = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
+const maps = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+const CITY = {
+  kl:{name:"🏙️ Kuala Lumpur", c:"var(--kl)", cs:"var(--kl-soft)"},
+  pen:{name:"☕ Penang", c:"var(--pen)", cs:"var(--pen-soft)"},
+  lgk:{name:"🏖️ Langkawi", c:"var(--lgk)", cs:"var(--lgk-soft)"},
+  home:{name:"Back home", c:"var(--muted)", cs:"var(--line)"}
+};
+const PLACE = {
+  blr:{n:"💻 Bengaluru", c:"var(--muted)", cs:"var(--line)"},
+  del:{n:"🇮🇳 Delhi", c:"var(--muted)", cs:"var(--line)"},
+  kl:{n:"🏙️ Kuala Lumpur", c:"var(--kl)", cs:"var(--kl-soft)"},
+  pen:{n:"☕ Penang", c:"var(--pen)", cs:"var(--pen-soft)"},
+  lgk:{n:"🏖️ Langkawi", c:"var(--lgk)", cs:"var(--lgk-soft)"}
+};
+const EMO = {kl:"🏙️", pen:"☕", lgk:"🏖️", home:"🇮🇳"};
+const EMO_CODE = {KUL:"🏙️ ", KL:"🏙️ ", PEN:"☕ ", LGK:"🏖️ ", DEL:"🇮🇳 ", BLR:"💻 "};
+const URL_ = {
+  airindia:"https://www.airindia.com/",
+  aix:"https://www.airindiaexpress.com/",
+  mh:"https://www.malaysiaairlines.com/",
+  airasia:"https://www.airasia.com/",
+  aiCheckin:"https://airindia.com/in/en/manage/web-checkin.html",
+  mhCheckin:"https://www.malaysiaairlines.com/my/en/plan-your-trip/check-in.html",
+  akCheckin:"https://www.airasia.com/",
+  accor:"https://all.accor.com/",
+  petronas:"https://www.petronastwintowers.com.my/",
+  penanghill:"https://www.penanghill.gov.my/",
+  skycab:"https://panoramalangkawi.com/",
+  skycabStatus:"https://panoramalangkawi.com/operation-calendar/",
+  blueMansion:"https://www.cheongfatttzemansion.com/discover/daily-tours/",
+  ekspres:"https://www.kliaekspres.com/",
+  mdac:"https://imigresen-online.imi.gov.my/mdac/main"
+};
+const AP = {
+  BLR2:"Kempegowda International Airport Terminal 2 Bengaluru",
+  BLR:"Kempegowda International Airport Bengaluru",
+  DEL1:"Indira Gandhi International Airport Terminal 1",
+  DEL3:"Indira Gandhi International Airport Terminal 3",
+  DEL:"Indira Gandhi International Airport Delhi",
+  KUL1:"KLIA Terminal 1 Kuala Lumpur International Airport",
+  KUL2:"KLIA Terminal 2 klia2",
+  PEN:"Penang International Airport",
+  LGK:"Langkawi International Airport"
+};
+
+const AI_BAG = {cabin:"7 kg + 1 personal item", checked:"As per your e-ticket fare"};
+const AK_BAG = {cabin:"7 kg total, including your personal item", checked:"Not included. Add it when booking; it costs more at the airport."};
+
+/* Last check-in times for Malaysian domestic flights */
+const CUT = {
+  mh1148:[["12:20","online check-in closes"],["12:50","bag drop and counter close"],["13:20","gate closes"]],
+  ak6241:[["08:40","online check-in closes"],["08:40","bag drop closes"],["09:20","gate closes"]],
+  ak6317:[["17:30","online check-in closes"],["17:30","bag drop closes"],["18:10","gate closes"]]
+};
+const cutHtml = c => c ? `<div class="cut">${c.map(x => `<span><b>${x[0]}</b> ${x[1]}</span>`).join("")}</div>` : "";
+
+const AL = {
+  AI:{n:"Air India", c:"#a3162c"},
+  IX:{n:"Air India Express", c:"#c2410c"},
+  MH:{n:"Malaysia Airlines", c:"#1e3a6e"},
+  AK:{n:"AirAsia", c:"#d0121b"}
+};
+const alBadge = (code, small, label) => `<span class="alb${small ? " sm" : ""}" style="background:${AL[code].c}"${label ? "" : ' aria-hidden="true"'}>${ic("plane")}${label || code}</span>`;
+const fno = f => f.no.replace(" (Air India Express)","");
+const legTimes = f => { const [d, a] = f.time.split(", ")[0].split(" → "); return [d, a || ""]; };
+
+const flights = [
+  {key:"f-ai9547", al:"IX", ci:["Try AIX web check-in", URL_.aix, "Your e-ticket says web check-in isn’t allowed on this codeshare, so expect to use the Air India Express counter at BLR T2."], from:"BLR", to:"DEL", ft:"T2", tt:"T1", no:"AI 9547 (Air India Express)", day:"Sat 14", time:"05:30 → 08:30", pnr:"93OG4W", city:"home",
+   a:[AP.BLR2, AP.DEL1], cta:["Manage booking", URL_.aix],
+   bag:{cabin:"7 kg", checked:"20 kg"},
+   note:"No web check-in: use the Air India Express counters at BLR T2. Separate PNR from AI 2384, so in Delhi collect your bag at T1, take the shuttle to T3 and check it in again."},
+  {key:"f-ai2384", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Opens Thu 12 Nov, 13:50 IST (48 h before), closes 2 h before departure."], from:"DEL", to:"KUL", ft:"T3", tt:"T1", no:"AI 2384", day:"Sat 14", time:"13:50 → 22:00, seat 9A", pnr:"93GEQ5", city:"kl",
+   a:[AP.DEL3, AP.KUL1], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"30 kg"},
+   note:"Emigration at Delhi T3."},
+  {key:"f-kulpen", al:"MH", cut:CUT.mh1148, ci:["Web check-in", URL_.mhCheckin, "Opens Sat 14 Nov, 13:50 Malaysia time; closes 90 min before. Economy passengers at KLIA must self check-in."], from:"KUL", to:"PEN", ft:"T1", tt:"", no:"MH 1148", day:"Mon 16", time:"13:50 → 14:50", pnr:"58Q72G", city:"pen",
+   a:[AP.KUL1, AP.PEN], cta:["Manage booking", URL_.mh], bag:{cabin:"7 kg", checked:"20 kg"}},
+  {key:"f-penlgk", al:"AK", cut:CUT.ak6241, ci:["Web check-in", URL_.akCheckin, "5 Nov, 09:40 to 19 Nov, 08:40 Malaysia time."], from:"PEN", to:"LGK", ft:"", tt:"", no:"AK 6241", day:"Thu 19", time:"09:40 → 10:15", pnr:"JESC4T", city:"lgk",
+   a:[AP.PEN, AP.LGK], cta:["Manage booking", URL_.airasia], bag:{cabin:"7 kg total, including your personal item", checked:"20 kg"},
+   note:"Check in online between 5 Nov, 09:40 and 19 Nov, 08:40 (Malaysia time). AirAsia charges extra for airport check-in."},
+  {key:"f-lgkkul", al:"AK", cut:CUT.ak6317, ci:["Web check-in", URL_.akCheckin, "6 Nov, 18:30 to 20 Nov, 17:30 Malaysia time."], from:"LGK", to:"KUL", ft:"", tt:"T2", no:"AK 6317", day:"Fri 20", time:"18:30 → 19:45", pnr:"F9VR5S", city:"kl",
+   a:[AP.LGK, AP.KUL2], cta:["Manage booking", URL_.airasia], bag:{cabin:"7 kg total, including your personal item", checked:"20 kg"},
+   note:"Check in online between 6 Nov, 18:30 and 20 Nov, 17:30 (Malaysia time); airport check-in costs extra. Be at Langkawi airport by 16:30. Lands at KLIA T2 (klia2), not T1."},
+  {key:"f-ai2387", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Opens Thu 19 Nov, 23:00 Malaysia time, closes 2 h before departure."], from:"KUL", to:"DEL", ft:"T1", tt:"T3", no:"AI 2387", day:"Sat 21", time:"23:00 → 02:20 (Sun), seat 9F", pnr:"93GEQ5", city:"home",
+   a:[AP.KUL1, AP.DEL3], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"30 kg"},
+   note:"Immigration, customs and bag pickup at Delhi T3."},
+  {key:"f-delblr", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Opens Fri 20 Nov, 06:00 IST (48 h before)."], from:"DEL", to:"BLR", ft:"T3", tt:"T2", no:"AI 2409", day:"Sun 22", time:"06:00 → 08:50", pnr:"5BMSRK", city:"home",
+   a:[AP.DEL3, AP.BLR2], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"20 kg, 1 piece"},
+   note:"⚠️ Checked bag must be under 20 kg, one piece (AI 2387 allowed 30 kg), so weigh it before you leave KL. Booked via Hopper; manage it there. Separate PNR: check your bag in again at T3 and be checked in by 05:00. Air India’s Delhi T2 flights are numbered AI 1xxx, so AI 2409 should leave from T3, the terminal you land at, but confirm on your boarding pass."}
+];
+
+const journey = [
+  {code:"BLR", name:"Bengaluru", tag:"Start", city:"home"},
+  {code:"DEL", name:"Delhi", tag:"Transit", city:"home"},
+  {code:"KL", name:"Kuala Lumpur", tag:"2 nights", city:"kl"},
+  {code:"PEN", name:"Penang", tag:"3 nights", city:"pen"},
+  {code:"LGK", name:"Langkawi", tag:"1 night", city:"lgk"},
+  {code:"KL", name:"Kuala Lumpur", tag:"1 night", city:"kl"},
+  {code:"DEL", name:"Delhi", tag:"Transit", city:"home"},
+  {code:"BLR", name:"Bengaluru", tag:"Home", city:"home"}
+];
+
+const stays = [
+  {key:"s-gm", name:"Grand Mercure KL Bukit Bintang", when:"Sat 14 – Mon 16, 2 nights", icon:"hotel", city:"kl", booked:true,
+   ref:"QTFPBCQM", pay:{due:null, note:"₹9,037 paid"}, addr:"117 Jalan Pudu, Kuala Lumpur", tel:"+60 3-2785 1111",
+   note:"Breakfast included. Late-arrival email sent; check their reply confirms breakfast and the ~23:30 arrival.", q:"Grand Mercure Kuala Lumpur Bukit Bintang 117 Jalan Pudu", cta:["Manage on ALL Accor", URL_.accor]},
+  {key:"s-hoj", name:"House of Journey", when:"Mon 16 – Thu 19, 3 nights", icon:"bed", city:"pen", booked:true,
+   ref:"81877-580866186", pay:{due:"RM 114.75", note:"~₹2,675 at check-in, taxes included. €4.73 paid online."}, addr:"12–20, 1st Floor, Lebuh Carnarvon, George Town", tel:"+60 4-226 1232",
+   note:"10-bed dorm. Free breakfast; Love Lane and Chulia Street on foot. Free cancellation until 12 Nov, 13:29 IST.", q:"House of Journey hostel Lebuh Carnarvon George Town Penang"},
+  {key:"s-bed", name:"Bed Attitude Hostel Cenang", when:"Thu 19 – Fri 20, 1 night", icon:"bed", city:"lgk", booked:true,
+   ref:"303774-580866214", pay:{due:"RM 65.03", note:"~₹1,515 at check-in, taxes included. €2.68 paid online."}, addr:"1st Floor, Cenang View Hotel, Jalan Pantai Cenang, Langkawi", tel:"+60 17-779 5658",
+   note:"6-bed dorm. Use the main entrance up the stairs next to the Cenang View Hotel entrance; the side door shuts at 10 PM. Free cancellation until 17 Nov, 13:29 IST.", q:"Bed Attitude Hostel Cenang Langkawi"},
+  {key:"s-klh", name:"Chinatown Hostel by Mingle", when:"Fri 20 – Sat 21, 1 night", icon:"bed", city:"kl", booked:true,
+   ref:"270462-580866744", pay:{due:"RM 65.40", note:"~₹1,525 at check-in: RM 54.60 balance + RM 10.80 service fee and sales tax. €3.79 paid online."}, addr:"53 Jalan Sultan, Chinatown, Kuala Lumpur", tel:"+60 11-5144 1557",
+   note:"Standard 8-bed dorm. Ask at check-in to store your bag until about 19:30 on Sat 21. Email: operations.chinatown@minglemanor.com. Pasar Seni station is close by for KL Sentral. Free cancellation until 17 Nov, 15:59 Malaysia time (13:29 IST).", q:"Chinatown Hostel by Mingle 53 Jalan Sultan Kuala Lumpur"}
+];
+
+/* [time, icon, name, note, maps query, extras {cta:[[label,url],...], ref:key}] */
+/* Options for open-ended stops: [name, Google Maps query] */
+const OPT = {
+  klLunch:[["Ho Kow Hainam Kopitiam","Ho Kow Hainam Kopitiam Jalan Balai Polis Kuala Lumpur"],["Kafei Dian","Kafei Dian Jalan Panggong Kuala Lumpur"],["Bubble Bee Cafe","Bubble Bee Cafe Jalan Petaling Kuala Lumpur"]],
+  klCafe:[["Yew Yew Coffee","Yew Yew Coffee Chinatown Jalan Sultan Kuala Lumpur"],["Bubble Bee Cafe","Bubble Bee Cafe Jalan Petaling Kuala Lumpur"],["Kafei Dian","Kafei Dian Jalan Panggong Kuala Lumpur"]],
+  kgBaru:[["Nasi Lemak Wanjo","Nasi Lemak Wanjo Kg Baru Kuala Lumpur"],["Nasi Lemak Pak Aji","Nasi Lemak Pak Aji Kampung Baru Kuala Lumpur"],["Nasi Lemak Kukus Ayam Kampung","Nasi Lemak Kukus Ayam Kampung Jalan Daud Kuala Lumpur"]],
+  klSat:[["Yew Yew Coffee (next to Mingle)","Yew Yew Coffee Chinatown Jalan Sultan Kuala Lumpur"],["Tamu Kopitiam","Tamu Kopitiam Lorong Petaling Kuala Lumpur"],["Ho Kow Hainam Kopitiam (till 16:00)","Ho Kow Hainam Kopitiam Jalan Balai Polis Kuala Lumpur"]],
+  penLunch:[["Seven Days","Seven Days cafe Jalan Penang George Town"],["Hidden on Armenian","Hidden on Armenian cafe George Town"],["Jo Kopitiam","Jo Kopitiam Lebuh Pantai George Town"],["The Table Specialty Coffee","The Table Specialty Coffee Jalan Green Hall George Town"]],
+  penWed:[["Utoo Boho Cafe","Utoo Boho Cafe Lebuh Victoria George Town"],["SamaSama Café","SamaSama Cafe Pengkalan Weld George Town"],["Pin Yu Kopitiam","Pin Yu Kopitiam Jalan Macalister George Town"],["Hidden on Armenian","Hidden on Armenian cafe George Town"]],
+  littleIndia:[["Rempah Ratus","Rempah Ratus Banana Leaf Cafe Lebuh Penang George Town"],["Shusi Banana Leaf","Shusi Banana Leaf Restaurant Penang Street George Town"],["Sri Ananda Bahwan","Sri Ananda Bahwan Jalan Macalister George Town"]],
+  penBars:[["Barkita (Love Lane)","Barkita Love Lane George Town"],["The Tipsy Cow","The Tipsy Cow Lebuh Chulia George Town"],["Chulia Court (live music)","Chulia Court Lebuh Chulia George Town"],["The Pokok (live band)","The Pokok All Day Bar Lebuh Chulia George Town"]],
+  lgkBars:[["Yellow Beach Club","Yellow Beach Club Langkawi"],["Ah Chong Beach Bar","Ah Chong beach bar cafe Pantai Cenang Langkawi"],["The Cliff","The Cliff Beach Restaurant Pantai Cenang Langkawi"],["Hidden Langkawi (fire show ~20:30)","Hidden Langkawi Pantai Tengah"]],
+  lgkDinner:[["Putumayo","Putumayo Restaurant Pantai Cenang Langkawi"],["Olaa Restaurant (Cenang Mall)","Olaa Restaurant Cenang Mall Langkawi"],["Omnia Beach Cafe","Omnia Beach Cafe Pantai Cenang Langkawi"]]
+};
+const optsHtml = o => o && o.length ? `<div class="opts"><span>Options</span>${o.map(x => `<a class="chip optc" href="${maps(x[1])}" target="_blank" rel="noopener">📍 ${x[0]}</a>`).join("")}</div>` : "";
+
+const days = [
+  {id:"sat-14", wx:{e:"🌫️", hi:30, lo:18, loc:"Delhi (daytime)", fc:true, p:0, rn:"Dry, hazy", note:"Smoggy but dry while you transfer in Delhi. KL tonight: about 25° with a 75% chance of rain, mostly before you land."}, d:"Sat 14", city:"kl", move:["blr","del","kl"], sum:"Bengaluru to KL via Delhi, straight to bed.", todo:[
+    ["Night before","Screenshot the MDAC confirmation, both PNRs and the hotel booking"],
+    ["By 04:30","Check in at the Air India Express counter, BLR T2 (no web check-in)", URL_.aix],
+    ["08:30","Collect your bag at Delhi T1, shuttle to T3, check in for AI 2384", URL_.aiCheckin],
+    ["At Delhi","Recharge your eSIM and switch on Indian SIM roaming"],
+    ["22:00","Grab from KLIA T1 to Grand Mercure, 117 Jalan Pudu"]], stops:[
+    ["3:15","car","Leave Bellandur for BLR T2","No web check-in: use the Air India Express counters.",AP.BLR2],
+    ["5:30","plane","Fly BLR T2 → DEL T1","AI 9547, lands 08:30. PNR 93OG4W.",AP.DEL1,{cta:[["Try AIX web check-in",URL_.aix]]}],
+    ["~9:00","train","Transfer to Delhi T3","Collect your bag at T1, shuttle to T3, check in again (separate PNR).",AP.DEL3],
+    ["13:50","plane","Fly DEL T3 → KUL T1","AI 2384, seat 9A. PNR 93GEQ5.",AP.KUL1,{cta:[["Web check-in",URL_.aiCheckin]]}],
+    ["22:00","plane","Land at KLIA T1","Immigration, then Grab to the city (about 1 hr).",AP.KUL1],
+    ["~23:30","hotel","Check in at Grand Mercure","","Grand Mercure Kuala Lumpur Bukit Bintang"]]},
+  {id:"sun-15", wx:{e:"⛈️", hi:30, lo:24, loc:"Kuala Lumpur", fc:true, p:85, rn:"PM storms", note:"Wettest day of the week in KL. Do Chinatown’s covered markets in the afternoon and keep an umbrella for Kampung Baru."}, d:"Sun 15", city:"kl", sum:"Easy rest day in the city.", todo:[
+    ["Anytime","Online check-in for MH 1148 (tomorrow 13:50)", URL_.mhCheckin],
+    ["Anytime","Make sure AK 6241 and AK 6317 are checked in online (airport check-in costs extra)", URL_.akCheckin],
+    ["Night","Pack; you check out tomorrow"]], stops:[
+    ["Morning","food","Sleep in, hotel breakfast","Included in your rate.","Grand Mercure Kuala Lumpur Bukit Bintang"],
+    ["9:30","run","Easy run at KLCC Park","Loop around the lake.","KLCC Park Kuala Lumpur"],
+    ["13:00","shop","Petaling Street","Chinatown market and lunch.","Petaling Street Kuala Lumpur",{opts:OPT.klLunch}],
+    ["14:30","shop","Central Market","Art-deco hall, batik and souvenirs.","Central Market Kuala Lumpur"],
+    ["15:30","coffee","Kwai Chai Hong cafés","Restored mural lane next to Petaling Street.","Kwai Chai Hong Kuala Lumpur",{opts:OPT.klCafe}],
+    ["18:30","sunset","Kampung Baru at dusk","KL’s old Malay village: wooden stilt houses with the twin towers behind. Free.","Kampung Baru Kuala Lumpur"],
+    ["19:30","food","Malay dinner in Kampung Baru","Nasi lemak with egg, chicken satay, teh tarik at the Jalan Raja Muda Musa stalls.","Jalan Raja Muda Musa Kampung Baru",{opts:OPT.kgBaru}],
+    ["22:00","drink","Changkat Bukit Bintang","Optional: your one KL night out.","Changkat Bukit Bintang"]]},
+  {id:"mon-16", wx:{e:"🌦️", hi:30, lo:25, loc:"George Town", fc:true, p:65, rn:"PM showers", note:"KL in the morning: 31°, 75% rain. The street art walk may need a rain break."}, d:"Mon 16", city:"pen", move:["kl","pen"], sum:"Fly to Penang, first night out.", todo:[
+    ["Morning","Last hotel breakfast, then check out of Grand Mercure"],
+    ["11:00","Leave for KLIA T1; drop your bag at least 1 hr before 13:50"],
+    ["~16:00","Check in at House of Journey (booking 81877-580866186) and pay RM 114.75"],
+    ["Evening","Sign up for any hostel events this week"]], stops:[
+    ["11:00","hotel","Check out, Grab to KLIA T1","About 1 hr.",AP.KUL1],
+    ["13:50","plane","Fly KUL T1 → PEN","MH 1148, lands 14:50. PNR 58Q72G.",AP.PEN,{cta:[["Web check-in",URL_.mhCheckin]],cut:CUT.mh1148}],
+    ["~16:00","bed","Check in at House of Journey","Grab from the airport, about 40 min.","House of Journey hostel George Town Penang"],
+    ["17:00","art","Armenian Street murals","Start of the street art walk.","Armenian Street George Town Penang"],
+    ["18:15","sunset","Chew Jetty","Clan jetty on stilts, best around sunset.","Chew Jetty George Town Penang"],
+    ["19:30","food","Gurney Drive hawker centre","Char kway teow, satay, cendol.","Gurney Drive Hawker Centre Penang"],
+    ["22:00","drink","Love Lane","Bars a short walk from the hostel.","Love Lane George Town Penang",{opts:OPT.penBars}]]},
+  {id:"tue-17", wx:{e:"🌦️", hi:32, lo:25, loc:"George Town", fc:true, p:70, rn:"PM showers", note:"Hottest day of the trip. Clear early for the run; clouds may build before the Penang Hill sunset."}, d:"Tue 17", city:"pen", sum:"Temple, cafés, hill at sunset.", todo:[
+    ["Anytime","Check the weather for Penang Hill; buy funicular tickets (Fast Lane if the queue is long)"],
+    ["Anytime","Confirm online check-in for AK 6241 on Thursday", URL_.akCheckin]], stops:[
+    ["6:30","run","Run on the Esplanade","Flat waterfront loop before the heat.","Esplanade George Town Penang"],
+    ["10:00","temple","Kek Lok Si Temple","Malaysia’s largest Buddhist temple. Free entry.","Kek Lok Si Temple Penang"],
+    ["13:00","coffee","George Town cafés","Lunch and coffee.","cafes George Town Penang",{opts:OPT.penLunch}],
+    ["17:30","mountain","Penang Hill for sunset","Funicular RM30 return; Fast Lane RM80 if the queue is long.","Penang Hill Lower Station",{cta:[["Funicular tickets",URL_.penanghill]],ref:"a-penanghill"}],
+    ["20:30","food","Little India dinner","Banana-leaf rice.","Little India George Town Penang",{opts:OPT.littleIndia}]]},
+  {id:"wed-18", wx:{e:"🌧️", hi:31, lo:25, loc:"George Town", fc:true, p:75, rn:"Showers", note:"Good day for the indoor Blue Mansion tour and cafés."}, d:"Wed 18", city:"pen", sum:"No-plan day.", todo:[
+    ["Evening","Pack tonight: you leave at 07:40 tomorrow"],
+    ["Evening","Settle anything owed at House of Journey and ask for an early checkout"],
+    ["Night","Keep the cabin bag at 7 kg total for AirAsia; heavy things go in the checked bag"]], stops:[
+    ["Morning","coffee","Café hopping","","cafes George Town Penang",{opts:OPT.penWed}],
+    ["11:00","temple","Blue Mansion guided tour","45 min, Peranakan-era mansion. Daily tours at 11:00 and 15:30; small groups, pre-book.","Cheong Fatt Tze Blue Mansion George Town",{cta:[["Book tour",URL_.blueMansion]],ref:"a-bluemansion"}],
+    ["Afternoon","bed","Hostel events and downtime","","House of Journey hostel George Town Penang"],
+    ["Evening","shop","Batu Ferringhi night market","Optional, about 40 min by Grab.","Batu Ferringhi Night Market Penang"],
+    ["22:00","drink","Chulia Street","Last Penang night.","Chulia Street George Town Penang",{opts:OPT.penBars}]]},
+  {id:"thu-19", wx:{e:"⛅", hi:31, lo:26, loc:"Pantai Cenang", fc:false, p:null, rn:"Clearest AM", note:"Forecast not out yet. Langkawi mornings are usually clearest, so SkyCab is at 11:30."}, d:"Thu 19", city:"lgk", move:["pen","lgk"], sum:"Early flight, SkyCab, beach sunset.", todo:[
+    ["07:40","Check out of House of Journey"],
+    ["By 08:40","Bag drop at Penang for AK 6241 (it closes 1 hr before)"],
+    ["~11:00","Store your bag at Bed Attitude (booking 303774-580866214)"],
+    ["Before 11:30","Check that SkyCab is running, then buy tickets"],
+    ["Afternoon","Formal check-in at Bed Attitude; pay RM 65.03"]], stops:[
+    ["7:40","bed","Leave the hostel","You’ll likely miss breakfast.","House of Journey hostel George Town Penang"],
+    ["9:40","plane","Fly PEN → LGK","AK 6241, lands 10:15. PNR JESC4T.",AP.LGK,{cta:[["Web check-in",URL_.akCheckin]],cut:CUT.ak6241}],
+    ["11:00","bed","Drop bags at Bed Attitude","","Bed Attitude Hostel Cenang Langkawi"],
+    ["11:30","cable","SkyCab + Sky Bridge","RM89 combo. Closes in storms; Friday morning is the backup.","Langkawi SkyCab Oriental Village",{cta:[["SkyCab tickets",URL_.skycab],["Check if it’s running",URL_.skycabStatus]],ref:"a-skycab"}],
+    ["15:00","beach","Pantai Cenang","","Pantai Cenang Langkawi"],
+    ["18:30","drink","Sunset at the beach bars","Duty-free drinks.","Pantai Cenang Langkawi",{opts:OPT.lgkBars}]]},
+  {id:"fri-20", wx:{e:"⛅", hi:31, lo:26, loc:"Pantai Cenang", fc:false, p:null, rn:"Clearest AM", note:"Forecast not out yet. Use the morning for the beach; KL evening showers possible."}, d:"Fri 20", city:"lgk", move:["lgk","kl"], sum:"Beach morning, back to KL.", todo:[
+    ["Morning","Check out of Bed Attitude; leave your bag there for the beach"],
+    ["Anytime","Web check-in for AI 2387 tomorrow night (opened Thu 23:00)", URL_.aiCheckin],
+    ["16:30","Be at Langkawi airport for AK 6317"],
+    ["~20:45","Check in at Mingle (booking 270462-580866744) and pay RM 65.40; ask to store your bag until 19:30 tomorrow"],
+    ["Night","Sleep in tomorrow: nothing before Batu Caves"]], stops:[
+    ["Morning","beach","Beach time","Or SkyCab if Thursday was rained out.","Pantai Cenang Langkawi"],
+    ["16:30","car","Be at Langkawi airport","2 hours before departure.",AP.LGK],
+    ["18:30","plane","Fly LGK → KUL T2","AK 6317, lands 19:45 at klia2. PNR F9VR5S.",AP.KUL2,{cta:[["Web check-in",URL_.akCheckin]],cut:CUT.ak6317}],
+    ["~20:45","sleep","Check in at Chinatown Hostel by Mingle","Grab from klia2, about 1 hr.","Chinatown Hostel by Mingle 53 Jalan Sultan Kuala Lumpur"]]},
+  {id:"sat-21", wx:{e:"⛈️", hi:31, lo:24, loc:"Kuala Lumpur", fc:false, p:null, rn:"PM storms", note:"Forecast not out yet. Batu Caves early beats both the heat and the storms."}, d:"Sat 21", city:"kl", move:["kl","del"], sum:"Batu Caves, slow afternoon, fly home.", todo:[
+    ["08:00","Grab from Mingle to Batu Caves (about 30 min)"],
+    ["Before noon","Back at Mingle: check out, store your bag"],
+    ["Anytime","Web check-in for AI 2409 (Delhi → Bengaluru)", URL_.aiCheckin],
+    ["Afternoon","Weigh your bag: 30 kg to Delhi, but only 20 kg for AI 2409"],
+    ["18:40","Collect your bag, Pasar Seni → KL Sentral → KLIA Ekspres to T1"]], stops:[
+    ["8:30","temple","Batu Caves","Free. Cover shoulders and knees.","Batu Caves"],
+    ["Afternoon","coffee","Slow café afternoon","Near Mingle, before the airport.","cafes Chinatown Kuala Lumpur",{opts:OPT.klSat}],
+    ["19:00","train","KLIA Ekspres from KL Sentral to T1","From Mingle, 1 stop from Pasar Seni to KL Sentral, then about 30 min.","KL Sentral KLIA Ekspres",{cta:[["Buy train ticket",URL_.ekspres]]}],
+    ["23:00","plane","Fly KUL T1 → DEL T3","AI 2387, seat 9F. PNR 93GEQ5.",AP.KUL1,{cta:[["Web check-in",URL_.aiCheckin]]}]]},
+  {id:"sun-22", wx:{e:"🌫️", hi:27, lo:11, loc:"Delhi", fc:false, p:null, rn:"Cold night, smog", note:"About 12° at Delhi T3 at 3 AM. Keep a hoodie in your cabin bag. Bengaluru ~26° / 18°."}, d:"Sun 22", city:"home", move:["del","blr"], sum:"Red-eye into Delhi, then home.", todo:[
+    ["02:20","Immigration and customs at T3; collect your bag"],
+    ["By 05:00","Check in again for AI 2409 at T3 (confirm the terminal on your boarding pass)", URL_.aiCheckin]], stops:[
+    ["02:20","plane","Land at Delhi T3","Immigration, customs, collect your bag.",AP.DEL3],
+    ["by 05:00","bag","Check in again for AI 2409","The counter closes 60 min before departure.",AP.DEL3],
+    ["06:00","plane","Fly DEL T3 → BLR T2","AI 2409, lands 08:50. PNR 5BMSRK.",AP.DEL3,{cta:[["Web check-in",URL_.aiCheckin]]}]]}
+];
+
+const budget = [
+  {title:"Paid in India", sub:"From your flight-booking chat. Plus 31,000 Air India points.", rows:[
+    ["Award taxes","BLR → DEL, DEL → KUL, KUL → DEL",7737,7737],
+    ["Paid seats","9A and 9F international, plus the domestic seat",4500,4500],
+    ["DEL → BLR, AI 2409","₹5,500 card + ₹7,900 wallet",13400,13400],
+    ["Cab Bellandur ↔ BLR airport","Estimate",2000,0]
+  ]},
+  {title:"Malaysia", sub:"From your budgeting chat and booking screenshots, at ₹23.31 per RM.", rows:[
+    ["Domestic flights","MH 1148 ₹4,360, AK 6241 ₹4,500, AK 6317 ₹4,500, all with 20 kg bags",13360,13360],
+    ["Stays","Grand Mercure ₹9,037 and hostel deposits (€11.20) paid; RM 245.18 due at the hostels",15862,10147],
+    ["🏙️ KL transport","Arrival Grab, monorail, KLIA Ekspres, MRT and KTM",7100,0],
+    ["☕ Penang transport","Buses, Grab to Gurney, airport transfers",2500,0],
+    ["🏖️ Langkawi transport","Grab: airport, Cenang, SkyCab",2800,0],
+    ["Food and cafés","About RM 85 a day, with 4 free breakfasts",14000,0],
+    ["Activities","Penang Hill, Kek Lok Si, SkyCab",3300,0],
+    ["Nightlife","Changkat, Love Lane, Cenang beach bars",3500,0],
+    ["Shopping","",5000,0],
+    ["eSIM, insurance, misc","Insurance still to buy",2800,0]
+  ]}
+];
+
+const todos = [
+  ["ins","Buy travel insurance","Cover 14–22 Nov. Do it first: cover only starts once the policy exists.", ""],
+  ["bluemansion","Book the Blue Mansion tour","Wed 18, 11:00. Small groups, often sold out.", URL_.blueMansion],
+  ["ak6241","Online check-in for AK 6241 (PEN → LGK)","Opens 5 Nov, 09:40 Malaysia time (07:10 IST). AirAsia charges for airport check-in.", URL_.akCheckin, "Check in"],
+  ["ak6317","Online check-in for AK 6317 (LGK → KUL)","Opens 6 Nov, 18:30 Malaysia time (16:00 IST).", URL_.akCheckin, "Check in"],
+  ["ai2384","Web check-in for AI 2384 (DEL → KUL)","Opens Thu 12 Nov, 13:50 IST.", URL_.aiCheckin, "Check in"],
+  ["mdac","Submit MDAC","Opens 11 Nov; do it between 11 and 14 Nov. Official site only; it’s free.", URL_.mdac],
+  ["hoj-cx","House of Journey free cancellation ends","12 Nov, 13:29 IST", ""],
+  ["checkin","Web check-in for MH 1148 (KUL → PEN)","Opens Sat 14, 13:50 Malaysia time. Required for economy at KLIA.", URL_.mhCheckin, "Check in"],
+  ["bed-cx","Bed Attitude and Mingle free cancellation ends","17 Nov, 13:29 IST", ""],
+  ["cash","Keep RM 245.18 for hostel balances","House of Journey RM 114.75, Bed Attitude RM 65.03, Mingle RM 65.40. About ₹5,715.", ""],
+  ["esim","Recharge your eSIM before landing","At Delhi airport on Sat 14, so you have data for Grab at KLIA.", ""],
+  ["roam","Keep your Indian SIM on roaming","For bank and card OTPs. A cheap IR pack with SMS is enough.", ""],
+  ["pack","Pack a hoodie, socks, eye mask and quick-dry towel","Hostel AC runs cold at night, curtains don’t fully close, and towels aren’t always provided.", ""]
+];
+
+const load = k => { try { return JSON.parse(localStorage.getItem(k) || "{}") || {}; } catch(e) { return {}; } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} };
+const refs = load("my-trip-refs");
+const done = load("my-trip-todo");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+const inr = n => "₹" + n.toLocaleString("en-IN");
+
+const chip = (href, label) => `<a class="chip" href="${href}" target="_blank" rel="noopener">${ic("map")}${label}</a>`;
+const cta = (label, href) => `<a class="cta" href="${href}" target="_blank" rel="noopener">${ic("ticket")}${label}</a>`;
+const refField = (key, label="Booking no.", fixed) => fixed ?
+  `<div class="ref"><label>${label}</label><b style="font-size:16px;letter-spacing:.06em;user-select:all">${fixed}</b><button type="button" class="copy" data-copy="${esc(fixed)}" aria-label="Copy ${label} ${esc(fixed)}">${ic("copy")}<span>Copy</span></button></div>` :
+  `<div class="ref"><label for="ref-${key}">${label}</label><input id="ref-${key}" data-ref="${key}" placeholder="Add once booked" autocomplete="off" autocapitalize="characters" spellcheck="false" value="${esc(refs[key]||"")}"><button type="button" class="copy" data-copy-from="ref-${key}" aria-label="Copy ${label}">${ic("copy")}<span>Copy</span></button></div>`;
+const tmTag = t => t && t !== "?" ? `<span class="tm">(${t})</span>` : "";
+const term = t => t === "?" ? "terminal on e-ticket" : (t ? t : "single terminal");
+
+/* Journey strip */
+document.getElementById("journey").innerHTML = journey.map((n, i) => {
+  const c = CITY[n.city];
+  const node = `<div class="jn" style="--c:${c.c};--cs:${c.cs}">${EMO_CODE[n.code] ? `<div class="emo">${EMO_CODE[n.code].trim()}</div>` : `<div class="dot"></div>`}<b>${n.code}</b><small>${n.name}</small><span class="nt">${n.tag}</span></div>`;
+  const f = flights[i];
+  const leg = f ? `<div class="jl"><div class="ln">${ic("plane")}</div><b>${f.day}</b><span>${f.time.split(",")[0]}</span><span>${alBadge(f.al, true)} ${f.no.replace(" (Air India Express)","").replace(new RegExp("^" + f.al + " "), "")}</span>${f.ci?`<a class="jci" href="${f.ci[1]}" target="_blank" rel="noopener">Check in</a>`:""}</div>` : "";
+  return node + leg;
+}).join("");
+
+document.getElementById("jump").innerHTML =
+  `<a href="#flights">✈️ Flights</a><a href="#stays">🛏️ Stays</a><a href="#activities">🎟️ Activities</a><a href="#places">📍 Places</a><a href="#food">🍜 Food</a>` +
+  days.map(x => `<a href="#${x.id}">${EMO[x.city] ? EMO[x.city] + " " : `<span style="background:${CITY[x.city].c}"></span>`}${x.d}${x.move?ic("plane"):""}</a>`).join("") +
+  `<a href="#budget">💰 Budget</a><a href="#checklist">✅ To do</a>`;
+
+document.getElementById("packRule").innerHTML =
+  `${ic("scale")}<p><b>Pack to 7 kg cabin and 20 kg checked.</b> Every flight allows at least that; the two Air India international flights allow 30 kg, so you can shop in Malaysia but the bag must be back under 20 kg for Delhi → Bengaluru. AirAsia counts your personal item inside the 7 kg.</p>`;
+
+document.getElementById("flightList").innerHTML = flights.map(f => `
+  <div class="ticket" style="--c:${AL[f.al].c};--cs:color-mix(in srgb, ${AL[f.al].c} 13%, var(--surface));--on-c:#fff">
+    <div class="airline">${alBadge(f.al, false, fno(f))}<span>${AL[f.al].n}</span><span class="fdate">${ic("cal")}${f.day}</span></div>
+    <div class="legline">
+      <span class="lp">${EMO_CODE[f.from]||""}${f.from}${tmTag(f.ft)}<span class="lt">${legTimes(f)[0]}</span></span>
+      ${ic("arrow")}
+      <span class="lp">${EMO_CODE[f.to]||""}${f.to}${tmTag(f.tt)}<span class="lt">${legTimes(f)[1]}</span></span>
+    </div>
+    <span class="status ok">Booked</span>
+    <div class="pills">
+      ${f.time.split(", ")[1] ? `<span class="pill">${ic("seat")}${f.time.split(", ")[1].replace("seat ","Seat ")}</span>` : ""}
+      <span class="pill bagp">${ic("bag")}<b>Cabin</b>${f.bag.cabin}</span>
+      <span class="pill bagp">${ic("bag")}<b>Checked</b>${f.bag.checked}</span>
+    </div>
+    <div class="pills ckp">
+      ${f.ci?`<span class="pill hl wide">${ic("check")}<b>Check-in</b>${f.ci[2]}</span>`:""}
+      ${(f.cut||[]).map(x => `<span class="pill hl">${ic("clock")}<b>${x[0]}</b>${x[1]}</span>`).join("")}
+    </div>
+    ${f.note?`<div class="tnote">${f.note}</div>`:""}
+    ${refField(f.key, "PNR", f.pnr)}
+    <div class="links">${f.ci?cta(f.ci[0], f.ci[1]):""}${f.cta?`<a class="chip" href="${f.cta[1]}" target="_blank" rel="noopener">${ic("ticket")}${f.cta[0]}</a>`:""}${chip(maps(f.a[0]), f.from+" airport")}${chip(maps(f.a[1]), f.to+" airport")}</div>
+  </div>`).join("");
+
+const isLate = d => /^(Fri 20|Sat 21)/.test(d);
+const lateIdx = (arr, f) => arr.findIndex(x => isLate(f(x)));
+const sepTxt = (first) => first ? "🏙️ First days · Sat 14 – Mon 16" : "🏙️ Back in KL · Fri 20 – Sat 21";
+const klSep = (city, i, late, tag) => city !== "kl" ? "" : i === 0 && late !== 0 ? `<${tag} class="sep"><span>${sepTxt(true)}</span></${tag}>` : i === late ? `<${tag} class="sep"><span>${sepTxt(false)}</span></${tag}>` : "";
+const stayCard = s => `
+  <div class="stay" style="--c:${CITY[s.city].c};--cs:${CITY[s.city].cs}">
+    <div class="ico" style="font-size:24px;line-height:1">${EMO[s.city]}</div>
+    <h3>${s.name}</h3>
+    <span class="status ${s.booked?"ok":"todo"}">${s.booked?"Booked":"To book"}</span>
+    <div class="when">${s.when}</div>
+    ${s.pay ? (s.pay.due ? `<div class="pay"><span>Left to pay</span><b>${s.pay.due}</b><span>${s.pay.note}</span></div>` : `<div class="pay paid"><b>Fully paid</b><span>${s.pay.note}</span></div>`) : ""}
+    <div class="note"><span style="color:var(--ink)">${s.addr}</span><br>${s.note}</div>
+    ${refField(s.key, "Booking no.", s.ref)}
+    <div class="links">${s.cta?cta(s.cta[0], s.cta[1]):""}${chip(maps(s.q), "Open in Maps")}<a class="chip" href="tel:${s.tel.replace(/[^+\d]/g,"")}">${ic("phone")}${s.tel}</a></div>
+  </div>`;
+const stabs = document.getElementById("stabs"), slist = document.getElementById("stayList");
+const NIGHTS = {kl:"3 nights", pen:"3 nights", lgk:"1 night"};
+const showStays = city => {
+  stabs.querySelectorAll(".ptab").forEach(b => b.setAttribute("aria-selected", b.dataset.city === city));
+  slist.innerHTML = stays.filter(x => x.city === city).map((x, i, arr) => klSep(city, i, lateIdx(arr, y => y.when), "div") + stayCard(x)).join("");
+};
+stabs.innerHTML = ["kl","pen","lgk"].map(c => `<button class="ptab" role="tab" data-city="${c}" style="--c:${CITY[c].c}">${CITY[c].name}<small>${NIGHTS[c]}, ${stays.filter(x => x.city === c).length} ${stays.filter(x => x.city === c).length > 1 ? "stays" : "stay"}</small></button>`).join("");
+stabs.addEventListener("click", e => { const b = e.target.closest(".ptab"); if (b) showStays(b.dataset.city); });
+showStays("kl");
+
+const tpos = t => Math.round((t - 10) / 25 * 100);
+document.getElementById("wxStrip").innerHTML = days.map(x => {
+  const w = x.wx; if (!w) return "";
+  const c = CITY[x.city];
+  return `<a class="wxd" href="#${x.id}" style="--c:${c.c};--cs:${c.cs}">
+    <span class="dn">${x.d}</span>
+    <span class="loc">📍 ${w.loc}</span>
+    <span class="we">${w.e}</span>
+    <span class="hi">${w.hi}°</span>
+    <span class="tb"><i style="bottom:${tpos(w.lo)}%;height:${tpos(w.hi)-tpos(w.lo)}%"></i></span>
+    <span class="lo">${w.lo}°</span>
+    <span class="rn">${w.p!=null?"💧 "+w.p+"% · ":""}${w.rn}</span>
+    <span class="src ${w.fc?"fc":""}">${w.fc?"Forecast":"Typical"}</span>
+    <span class="ce">${(x.move ? x.move.map(p => (EMO_CODE[{blr:"BLR",del:"DEL",kl:"KL",pen:"PEN",lgk:"LGK"}[p]]||"").trim()).join("→") : EMO[x.city])}</span>
+  </a>`;
+}).join("");
+
+document.getElementById("dayList").innerHTML = days.map(x => `
+  <article class="day" id="${x.id}" style="--c:${CITY[x.city].c};--cs:${CITY[x.city].cs}">
+    <div class="dayhead"><h3>${x.d}</h3>${x.move ? `<span class="move">${x.move.map(p => { const q = PLACE[p]; return `<span class="city" style="--c:${q.c};--cs:${q.cs}">${q.n}</span>`; }).join(ic("plane"))}</span>` : `<span class="city">${CITY[x.city].name}</span>`}</div>
+    ${x.wx?`<div class="wxbox"><div class="wx"><span class="we">${x.wx.e}</span><b>${x.wx.hi}°</b><span class="hb"><i style="left:${tpos(x.wx.lo)}%;width:${tpos(x.wx.hi)-tpos(x.wx.lo)}%"></i></span><span>${x.wx.lo}°</span><span class="rn">${x.wx.p!=null?"💧 "+x.wx.p+"% · ":""}${x.wx.rn}</span><span class="loc">📍 ${x.wx.loc}</span><span class="src ${x.wx.fc?"fc":""}">${x.wx.fc?"Forecast":"Typical"}</span></div><p class="wxn">${x.wx.note}</p></div>`:""}
+    <p class="daysum">${x.sum}</p>
+    ${x.todo?`<div class="dtodo"><h4>${ic("check")}To do</h4><ul>${x.todo.map((t, i) => {
+      const k = x.id + "-" + i;
+      return `<li><label><input type="checkbox" data-k="${k}" ${done[k]?"checked":""}><span><span class="w">${t[0]}</span>${t[1]}${t[2]?` <a class="tlink" href="${t[2]}" target="_blank" rel="noopener">Check in ↗</a>`:""}</span></label></li>`;
+    }).join("")}</ul></div>`:""}
+    <ul class="stops">${x.stops.map(s => {
+      const ex = s[5];
+      return `<li><a class="row" href="${maps(s[4])}" target="_blank" rel="noopener" aria-label="${esc(s[2])}, open in Google Maps">
+        <span class="t">${s[0]}</span>
+        <span class="k">${ic(s[1])}</span>
+        <span class="n">${s[2]}${s[3]?`<span class="d">${s[3]}</span>`:""}</span>
+        <span class="go">${ic("ext")}</span>
+      </a>${ex?`<div class="act">${cutHtml(ex.cut)}${(ex.cta||[]).map(c => cta(c[0], c[1])).join("")}${optsHtml(ex.opts)}${ex.ref?refField(ex.ref):""}</div>`:""}</li>`;
+    }).join("")}
+    </ul>
+  </article>`).join("");
+
+const acts = [
+  {key:"a-bluemansion", name:"Blue Mansion guided tour", city:"pen", when:"Wed 18, 11:00 (or 15:30)", status:"Pre-book",
+   price:"From ~US$7", tip:"Cheong Fatt Tze’s 19th-century indigo mansion: Chinese, Peranakan and colonial design in one house. 45 min, English, small groups that often sell out.", q:"Cheong Fatt Tze Blue Mansion George Town",
+   cta:[["Book tour", URL_.blueMansion]]},
+  {key:"a-penanghill", name:"Penang Hill funicular", city:"pen", when:"Tue 17, up at ~17:30 for sunset", status:"Book on the day",
+   price:"RM 30 return", tip:"Fast Lane is RM 80 if the queue is long. Bus 204 from Komtar runs to the lower station, near Kek Lok Si.", q:"Penang Hill Lower Station",
+   cta:[["Funicular tickets", URL_.penanghill]]},
+  {key:"a-skycab", name:"SkyCab + Sky Bridge", city:"lgk", when:"Thu 19, ~11:30 (backup: Fri 20 morning)", status:"Book on the day",
+   price:"RM 89 combo", tip:"Closes in heavy rain and wind, so check it’s running before you buy.", q:"Langkawi SkyCab Oriental Village",
+   cta:[["SkyCab tickets", URL_.skycab],["Check if it’s running", URL_.skycabStatus]]},
+  {key:"a-kgbaru", name:"Kampung Baru at dusk", city:"kl", when:"Sun 15, 18:30", status:"Free",
+   price:"Free", tip:"KL’s old Malay village, with wooden houses below the twin towers. Stay for nasi lemak, satay and teh tarik.", q:"Kampung Baru Kuala Lumpur", cta:[]},
+  {key:"a-kls", name:"Kek Lok Si Temple", city:"pen", when:"Tue 17, 10:00", status:"Free",
+   price:"Free entry", tip:"The lift up to the Guan Yin statue costs a little extra. No booking needed.", q:"Kek Lok Si Temple Penang", cta:[]},
+  {key:"a-batu", name:"Batu Caves", city:"kl", when:"Sat 21, 08:30", status:"Free",
+   price:"Free entry", tip:"Cover shoulders and knees; sarongs can be rented at the base. No booking needed.", q:"Batu Caves", cta:[]}
+];
+
+const actCard = a => {
+  const free = a.status === "Free";
+  return `<div class="stay" style="--c:${CITY[a.city].c};--cs:${CITY[a.city].cs}">
+    <div class="ico" style="font-size:24px;line-height:1">${EMO[a.city]}</div>
+    <h3>${a.name}</h3>
+    <span class="status ${free?"ok":"todo"}">${a.status}</span>
+    <div class="when">${a.when}</div>
+    <div class="pay ${free?"paid":""}"><b>${a.price}</b></div>
+    <div class="note">${a.tip}</div>
+    ${free ? "" : refField(a.key)}
+    <div class="links">${a.cta.map(c => cta(c[0], c[1])).join("")}${chip(maps(a.q), "Open in Maps")}</div>
+  </div>`;
+};
+const ACT_ORDER = ["a-kgbaru","a-batu","a-kls","a-penanghill","a-bluemansion","a-skycab"];
+const atabs = document.getElementById("atabs"), alist = document.getElementById("actList");
+const actsIn = c => acts.filter(x => x.city === c).sort((p, q) => ACT_ORDER.indexOf(p.key) - ACT_ORDER.indexOf(q.key));
+const showActs = city => {
+  atabs.querySelectorAll(".ptab").forEach(b => b.setAttribute("aria-selected", b.dataset.city === city));
+  alist.innerHTML = actsIn(city).map((x, i, arr) => klSep(city, i, lateIdx(arr, y => y.when), "div") + actCard(x)).join("");
+};
+atabs.innerHTML = ["kl","pen","lgk"].map(c => { const n = actsIn(c).length, bk = actsIn(c).filter(x => x.status !== "Free").length;
+  return `<button class="ptab" role="tab" data-city="${c}" style="--c:${CITY[c].c}">${CITY[c].name}<small>${n} ${n > 1 ? "activities" : "activity"}${bk ? `, ${bk} to book` : ", all free"}</small></button>`; }).join("");
+atabs.addEventListener("click", e => { const b = e.target.closest(".ptab"); if (b) showActs(b.dataset.city); });
+showActs("kl");
+
+const status = r => r[3] >= r[2] ? ["ok","Paid"] : r[3] > 0 ? ["part","Partly paid"] : ["todo","To pay"];
+/* [day, time, icon, name, note, maps query, cta?] in trip order */
+const places = {
+  kl:[
+    ["Sun 15","9:30","run","KLCC Park","Morning run loop around the lake.","KLCC Park Kuala Lumpur"],
+    ["Sun 15","13:00","shop","Petaling Street","Chinatown market street under the green roof.","Petaling Street Kuala Lumpur"],
+    ["Sun 15","14:30","shop","Central Market","Art-deco hall: batik, crafts, souvenirs.","Central Market Kuala Lumpur"],
+    ["Sun 15","15:30","art","Kwai Chai Hong","Restored mural lane next to Petaling Street.","Kwai Chai Hong Kuala Lumpur"],
+    ["Sun 15","18:30","sunset","Kampung Baru","Old Malay village below the twin towers, best at dusk.","Kampung Baru Kuala Lumpur"],
+    ["Sat 21","8:30","temple","Batu Caves","Rainbow steps and cave temple. Free; cover shoulders and knees.","Batu Caves"]
+  ],
+  pen:[
+    ["Mon 16","17:00","art","Armenian Street murals","Start of the street art walk.","Armenian Street George Town Penang"],
+    ["Mon 16","18:15","sunset","Chew Jetty","Clan jetty on stilts, best at sunset.","Chew Jetty George Town Penang"],
+    ["Tue 17","6:30","run","Esplanade","Flat waterfront run before the heat.","Esplanade George Town Penang"],
+    ["Tue 17","10:00","temple","Kek Lok Si Temple","Malaysia’s largest Buddhist temple. Free.","Kek Lok Si Temple Penang"],
+    ["Tue 17","17:30","mountain","Penang Hill","Funicular up for sunset. RM 30 return.","Penang Hill Lower Station",["Funicular tickets",URL_.penanghill]],
+    ["Wed 18","11:00","temple","Blue Mansion","45-min guided tour. Pre-book.","Cheong Fatt Tze Blue Mansion George Town",["Book tour",URL_.blueMansion]],
+    ["Wed 18","Evening","shop","Batu Ferringhi night market","Optional, about 40 min by Grab.","Batu Ferringhi Night Market Penang"]
+  ],
+  lgk:[
+    ["Thu 19","11:30","cable","SkyCab + Sky Bridge","Cable car and curved bridge. RM 89; check it’s running.","Langkawi SkyCab Oriental Village",["SkyCab tickets",URL_.skycab]],
+    ["Thu 19","15:00","beach","Pantai Cenang","Main beach, a walk from Bed Attitude. Back on Fri morning.","Pantai Cenang Langkawi"]
+  ]
+};
+const food = {
+  kl:[
+    ["Sun 15","Morning","food","Grand Mercure breakfast","Included Sun and Mon mornings.","Grand Mercure Kuala Lumpur Bukit Bintang"],
+    ["Sun 15","13:00","food","Chinatown lunch","Hawker stalls and kopitiams around Petaling Street.","food Petaling Street Kuala Lumpur",null,OPT.klLunch],
+    ["Sun 15","15:30","coffee","Kwai Chai Hong cafés","Coffee break in the mural lane.","Kwai Chai Hong Kuala Lumpur",null,OPT.klCafe],
+    ["Sun 15","19:30","food","Kampung Baru nasi lemak","Malay dinner: nasi lemak with egg, chicken satay, teh tarik.","Jalan Raja Muda Musa Kampung Baru",null,OPT.kgBaru],
+    ["Sun 15","22:00","drink","Changkat Bukit Bintang","Bar street, if you want a KL night out.","Changkat Bukit Bintang"],
+    ["Sat 21","Afternoon","coffee","Chinatown cafés","Slow afternoon near Mingle before the airport.","cafes Chinatown Kuala Lumpur",null,OPT.klSat]
+  ],
+  pen:[
+    ["Mon 16","19:30","food","Gurney Drive hawker centre","Char kway teow, satay, cendol.","Gurney Drive Hawker Centre Penang"],
+    ["Mon 16","22:00","drink","Love Lane bars","Bar lane a short walk from the hostel.","Love Lane George Town Penang",null,OPT.penBars],
+    ["Tue 17","13:00","coffee","George Town cafés","Lunch and coffee between sights.","cafes George Town Penang",null,OPT.penLunch],
+    ["Tue 17","20:30","food","Little India","Banana-leaf dinner.","Little India George Town Penang",null,OPT.littleIndia],
+    ["Wed 18","Morning","coffee","Café hopping","No-plan morning before the Blue Mansion.","cafes George Town Penang",null,OPT.penWed],
+    ["Wed 18","22:00","drink","Chulia Street","Last Penang night out.","Chulia Street George Town Penang",null,OPT.penBars]
+  ],
+  lgk:[
+    ["Thu 19","18:30","drink","Cenang beach bars","Sunset on beanbags, duty-free drinks.","Pantai Cenang Langkawi",null,OPT.lgkBars],
+    ["Thu 19","20:00","food","Dinner on the Cenang strip","Restaurants and stalls along Jalan Pantai Cenang.","restaurants Pantai Cenang Langkawi",null,OPT.lgkDinner]
+  ]
+};
+const tabbed = (data, tabsId, listId, unit) => {
+  const tabs = document.getElementById(tabsId), list = document.getElementById(listId);
+  const show = city => {
+    tabs.querySelectorAll(".ptab").forEach(b => b.setAttribute("aria-selected", b.dataset.city === city));
+    list.style.cssText = `--c:${CITY[city].c};--cs:${CITY[city].cs}`;
+    list.innerHTML = `<ul class="stops">${data[city].map((p, i, arr) => klSep(city, i, lateIdx(arr, q => q[0]), "li") + `<li><a class="row" href="${maps(p[5])}" target="_blank" rel="noopener" aria-label="${esc(p[3])}, open in Google Maps">
+        <span class="t">${p[0]}<br><span style="font-weight:500">${p[1]}</span></span><span class="k">${ic(p[2])}</span>
+        <span class="n">${p[3]}<span class="d">${p[4]}</span></span><span class="go">${ic("ext")}</span></a>
+        ${p[6]?`<div class="act">${cta(p[6][0], p[6][1])}</div>`:""}${p[7]?`<div class="act">${optsHtml(p[7])}</div>`:""}</li>`).join("")}</ul>`;
+  };
+  tabs.innerHTML = ["kl","pen","lgk"].map(c => `<button class="ptab" role="tab" data-city="${c}" style="--c:${CITY[c].c}">${CITY[c].name}<small>${data[c].length} ${unit}</small></button>`).join("");
+  tabs.addEventListener("click", e => { const b = e.target.closest(".ptab"); if (b) show(b.dataset.city); });
+  show("kl");
+};
+tabbed(places, "ptabs", "plist", "places");
+tabbed(food, "ftabs", "flist", "spots");
+
+let gT = 0, gP = 0;
+document.getElementById("budgetList").innerHTML = budget.map(b => {
+  const t = b.rows.reduce((s, r) => s + r[2], 0), pd = b.rows.reduce((s, r) => s + r[3], 0);
+  gT += t; gP += pd;
+  return `<div class="bcard"><h3>${b.title}</h3><p class="sub">${b.sub}</p>
+    ${b.rows.map(r => { const [cls, lab] = status(r);
+      return `<div class="brow st-${cls}"><span class="l">${r[0]}</span>${r[1]?`<span class="d">${r[1]}</span>`:""}
+        ${cls==="part"?`<span class="d pp"><span class="pbar"><i style="width:${Math.round(r[3]/r[2]*100)}%"></i></span>${inr(r[3])} paid, ${inr(r[2]-r[3])} left</span>`:""}
+        <span class="a">${inr(r[2])}<span class="bst ${cls}">${lab}</span></span></div>`; }).join("")}
+    <div class="brow total"><span class="l">Subtotal</span><span class="d">${inr(pd)} paid, ${inr(t-pd)} left</span><span class="a">${inr(t)}</span></div></div>`;
+}).join("") + `<div class="grand">
+  <span class="l">Whole trip</span><span class="a">${inr(Math.round(gT/100)*100)}</span>
+  <div class="gbar"><i style="width:${Math.round(gP/gT*100)}%"></i></div>
+  <div class="gleg"><span><b>${inr(gP)}</b> paid (${Math.round(gP/gT*100)}%)</span><span><b>${inr(gT-gP)}</b> still to pay</span></div>
+  <span class="d">Keep a ₹5,000 buffer on top. Carry about RM 600 in cash, enough for the RM 245.18 hostel balances, and use a zero-forex card for the rest.</span></div>`;
+
+const tl = document.getElementById("todoList");
+tl.innerHTML = todos.map(t => `
+  <li><label><input type="checkbox" data-k="${t[0]}" ${done[t[0]]?"checked":""}>
+  <span><span class="n">${t[1]}</span>${t[2]?`<span class="x">${t[2]}</span>`:""}</span></label>${t[3]?cta(t[0]==="mdac"?"Open MDAC":(t[4]||"Book"), t[3]):""}</li>`).join("");
+tl.addEventListener("change", e => {
+  const k = e.target.dataset.k; if (!k) return;
+  done[k] = e.target.checked; save("my-trip-todo", done);
+});
+
+document.getElementById("dayList").addEventListener("change", e => {
+  const k = e.target.dataset && e.target.dataset.k; if (!k) return;
+  done[k] = e.target.checked; save("my-trip-todo", done);
+});
+
+const copyText = async t => {
+  try { await navigator.clipboard.writeText(t); return true; } catch (e) {
+    try { const a = document.createElement("textarea"); a.value = t; a.style.position = "fixed"; a.style.opacity = "0"; document.body.appendChild(a); a.select(); const ok = document.execCommand("copy"); a.remove(); return ok; } catch (e2) { return false; }
+  }
+};
+document.addEventListener("click", async e => {
+  const b = e.target.closest(".copy"); if (!b) return;
+  e.preventDefault();
+  const t = b.dataset.copy || (document.getElementById(b.dataset.copyFrom) || {}).value || "";
+  if (!t) return;
+  const ok = await copyText(t), sp = b.querySelector("span");
+  b.classList.toggle("done", ok); sp.textContent = ok ? "Copied" : "Press and hold to copy";
+  setTimeout(() => { b.classList.remove("done"); sp.textContent = "Copy"; }, 1600);
+});
+
+document.addEventListener("input", e => {
+  const k = e.target.dataset && e.target.dataset.ref; if (!k) return;
+  refs[k] = e.target.value.trim(); save("my-trip-refs", refs);
+});
+</script>
+</body>
+</html>
