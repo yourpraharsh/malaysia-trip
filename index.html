@@ -811,7 +811,7 @@ async function loadLiveWeather() {
   document.getElementById("wxNote").textContent = `Live forecast from Open-Meteo, updated ${t.toLocaleString([], {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"})}. It refreshes every time you open the page. 📍 shows the place each day’s weather is for.`;
 }
 let wxo;
-loadLiveWeather();
+setTimeout(loadLiveWeather, 0);
 const tickDone = () => document.querySelectorAll(".ticket[data-arr]").forEach(t => {
   const d = nowMs() >= new Date(t.dataset.arr).getTime();
   t.classList.toggle("done", d); if (!d) t.classList.remove("open");
@@ -1039,15 +1039,39 @@ const tl = document.getElementById("todoList");
 tl.innerHTML = todos.map(t => `
   <li><label><input type="checkbox" data-k="${t[0]}" ${done[t[0]]?"checked":""}>
   <span><span class="n">${t[1]}</span>${t[2]?`<span class="x">${t[2]}</span>`:""}</span></label>${t[3]?cta(t[0]==="mdac"?"Open MDAC":(t[4]||"Book"), t[3]):""}</li>`).join("");
+let pushTicks = () => {};
 tl.addEventListener("change", e => {
   const k = e.target.dataset.k; if (!k) return;
-  done[k] = e.target.checked; save("my-trip-todo", done);
+  done[k] = e.target.checked; save("my-trip-todo", done); pushTicks();
 });
 
 document.getElementById("dayList").addEventListener("change", e => {
   const k = e.target.dataset && e.target.dataset.k; if (!k) return;
-  done[k] = e.target.checked; save("my-trip-todo", done);
+  done[k] = e.target.checked; save("my-trip-todo", done); pushTicks();
 });
+/* On claude.ai, also keep ticks in the artifact's private per-person store so they survive
+   across devices and app sessions. Elsewhere (GitHub) this quietly does nothing. */
+(async () => {
+  try {
+    if (!window.claude || typeof window.claude.use !== "function") return;
+    const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    if (!db || !user) return;
+    const id = await user.id(); if (!id) return;
+    const ref = db.collection("data/users/" + id).doc("ticks");
+    const snap = await ref.get();
+    if (snap.exists) {
+      const remote = (snap.data() || {}).done || {};
+      Object.keys(done).forEach(k => { if (!(k in remote)) delete done[k]; });
+      Object.assign(done, remote);
+      save("my-trip-todo", done);
+      document.querySelectorAll('input[type="checkbox"][data-k]').forEach(c => { c.checked = !!done[c.dataset.k]; });
+    } else {
+      await ref.set({done});
+    }
+    let t = null;
+    pushTicks = () => { clearTimeout(t); t = setTimeout(() => ref.set({done: {...done}}).catch(() => {}), 400); };
+  } catch (e) {}
+})();
 
 const copyText = async t => {
   try { await navigator.clipboard.writeText(t); return true; } catch (e) {
