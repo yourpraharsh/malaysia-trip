@@ -132,10 +132,12 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .jn b{display:block;font:800 20px/1.1 "Fredoka",system-ui,sans-serif}
 .jn small{display:block;font-size:12px;color:var(--muted);line-height:1.3}
 .jn .nt{display:inline-block;margin-top:5px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--cs);color:var(--c);white-space:nowrap}
-.jl{flex:1 0 100px;text-align:center;padding:0 2px}
-.jl .ln{position:relative;height:18px;margin-bottom:6px}
-.jl .ln::before{content:"";position:absolute;left:0;right:0;top:8px;border-top:2px dashed var(--line)}
-.jl .ln svg{position:relative;width:18px;height:18px;padding:0 3px;box-sizing:content-box;background:var(--bg);color:var(--muted)}
+.jl{flex:1 0 56px;display:block;text-align:center;padding:0 2px;text-decoration:none;align-self:flex-start;margin-top:4px}
+.jl .ln{position:relative;height:34px;display:flex;align-items:center;justify-content:center}
+.jl .ln::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px dashed var(--line)}
+.jl .ln svg{position:relative;width:18px;height:18px;padding:7px;box-sizing:content-box;border-radius:50%;background:var(--surface);border:1px solid var(--line);color:var(--muted);transition:transform .15s,color .15s,border-color .15s}
+.jl:hover .ln svg,.jl:focus-visible .ln svg{color:var(--ink);border-color:var(--ink);transform:scale(1.08)}
+.ticket:target{box-shadow:0 0 0 3px color-mix(in srgb, var(--c) 45%, transparent);transition:box-shadow .3s}
 .jl b{display:block;font-size:13px;font-weight:700}
 .jl span{display:block;font-size:12px;color:var(--muted);line-height:1.35}
 
@@ -237,6 +239,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .ticket .pills.bagrow{margin-top:18px}
 .ticket .epnr{margin-left:auto;display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-weight:600;font-size:13px}
 .ticket .epnr b{color:var(--ink);font-size:16px;letter-spacing:.06em;user-select:all}
+
 .ticket .tnote{margin-top:2px}
 .ticket .bagrow{margin-top:0}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ticket .pill.hl{color:color-mix(in srgb, var(--c) 30%, #fff);background:color-mix(in srgb, var(--c) 40%, var(--surface))}:root:not([data-theme="light"]) .ticket .pill.hl svg{color:inherit}}
@@ -254,7 +257,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .pill.bagp{background:var(--surface)}
 .ticket .airline{grid-column:1;grid-row:2;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--muted)}
 .ticket .status{grid-column:2;grid-row:2}
-.ticket .eyebrow{grid-column:1/-1;grid-row:1;display:flex;align-items:center;justify-content:flex-start;gap:8px 12px;flex-wrap:wrap;margin:-20px -24px 6px;padding:12px 24px;border-radius:15px 15px 0 0;background:var(--cs);color:var(--c);font-size:14px;font-weight:700;border-bottom:1px solid var(--line)}
+.ticket .eyebrow{grid-column:1/-1;grid-row:1;display:flex;align-items:center;justify-content:flex-start;gap:8px 12px;flex-wrap:nowrap;white-space:nowrap;margin:-20px -24px 6px;padding:12px 24px;border-radius:15px 15px 0 0;background:var(--cs);color:var(--c);font-size:14px;font-weight:700;border-bottom:1px solid var(--line)}
 .ticket .eyebrow .ed{display:inline-flex;align-items:center;gap:7px}
 .ticket .eyebrow .ed svg{width:16px;height:16px}
 .ticket .eyebrow .cd{font-weight:600;font-variant-numeric:tabular-nums;padding:2px 10px;border-radius:999px;background:var(--surface);color:var(--ink);border:1px solid var(--line)}
@@ -316,6 +319,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .stays > .sep{padding:4px 0}
 .ptab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 15px "Figtree",system-ui,sans-serif;padding:10px 6px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 .ptab small{font-weight:500;font-size:12px;color:var(--muted)}
+.ptab.now small::before{content:"📍 Now · "}
 .ptab[aria-selected="true"]{background:var(--c);border-color:var(--c);color:var(--on-c)}
 .ptab[aria-selected="true"] small{color:var(--on-c);opacity:.85}
 .ptab[data-city="lgk"][aria-selected="true"]{background:#F4C430;border-color:#F4C430;color:#2E2300}
@@ -350,6 +354,19 @@ footer{padding:26px 0 40px;color:var(--muted);font-size:13px}
   .todo li{flex-wrap:wrap;padding-bottom:4px}
   .todo li .cta{margin:0 0 10px 46px}
 }
+@media (max-width:520px){
+  .ticket .eyebrow{gap:6px;padding:10px 14px;font-size:13px}
+  .ticket .eyebrow .ed{gap:5px}
+  .ticket .eyebrow .ed svg{display:none}
+  .ticket .eyebrow .cd{padding:2px 8px;font-size:12px}
+  .ticket .epnr{gap:5px;font-size:11px}
+  .ticket .epnr b{font-size:14px;letter-spacing:.03em}
+  .ticket .epnr .copy span{display:none}
+  .ticket .epnr .copy{padding:5px 7px}
+}
+@media (max-width:520px){.ticket{padding:16px 14px 18px}.ticket .eyebrow{margin:-16px -14px 6px}}
+.ticket .eyebrow .ed,.ticket .epnr{flex:none}.ticket .eyebrow .cd{min-width:0;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:400px){.ticket .epnr .pl{display:none}.ticket .eyebrow{gap:5px;padding:10px 12px;font-size:12px}.ticket .eyebrow .cd{padding:2px 7px;font-size:11px}.ticket .epnr b{font-size:13px}}
 </style>
 </head>
 <body>
@@ -478,6 +495,12 @@ const alBadge = (code, small, label) => `<span class="alb${small ? " sm" : ""}" 
 const SIM_KEY = "my-trip-sim";
 let simAt = null; try { simAt = localStorage.getItem(SIM_KEY); } catch (e) {}
 const nowMs = () => simAt ? new Date(simAt).getTime() : Date.now();
+/* Where am I? Based on the booked flights (respects test mode). */
+const cityNow = () => { const t = nowMs();
+  return t < Date.parse("2026-11-16T13:50:00+08:00") ? "kl" : t < Date.parse("2026-11-19T09:40:00+08:00") ? "pen"
+    : t < Date.parse("2026-11-20T18:30:00+08:00") ? "lgk" : "kl"; };
+const TAB_SYNC = [];
+const markNow = () => { const c = cityNow(); document.querySelectorAll(".ptab").forEach(b => b.classList.toggle("now", b.dataset.city === c)); };
 const fullDate = f => {
   const [y, m, d] = f.dep.slice(0, 10).split("-").map(Number);
   const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
@@ -729,7 +752,7 @@ document.getElementById("journey").innerHTML = journey.map((n, i) => {
   const c = CITY[n.city];
   const node = `<div class="jn" style="--c:${c.c};--cs:${c.cs}">${EMO_CODE[n.code] ? `<div class="emo">${EMO_CODE[n.code].trim()}</div>` : `<div class="dot"></div>`}<b>${n.code}</b><small>${n.name}</small><span class="nt">${n.tag}</span></div>`;
   const f = flights[i];
-  const leg = f ? `<div class="jl"><div class="ln">${ic("plane")}</div><b>${f.day}</b><span>${f.time.split(",")[0]}</span><span>${alBadge(f.al, true)} ${f.no.replace(" (Air India Express)","").replace(new RegExp("^" + f.al + " "), "")}</span>${f.ci?`<a class="jci" href="${f.ci[1]}" target="_blank" rel="noopener">Check in</a>`:""}</div>` : "";
+  const leg = f ? `<a class="jl" href="#fl-${f.key}" aria-label="Go to flight ${f.no}, ${f.from} to ${f.to}, ${f.day}"><div class="ln">${ic("plane")}</div></a>` : "";
   return node + leg;
 }).join("");
 
@@ -742,9 +765,9 @@ document.getElementById("packRule").innerHTML =
   `${ic("scale")}<p><b>Pack to 7 kg cabin and 20 kg checked.</b> Every flight allows at least that; the two Air India international flights allow 30 kg, so you can shop in Malaysia but the bag must be back under 20 kg for Delhi → Bengaluru. AirAsia counts your personal item inside the 7 kg.</p>`;
 
 document.getElementById("flightList").innerHTML = flights.map(f => `
-  <div class="ticket" data-arr="${f.arr}" style="--c:${AL[f.al].c};--cs:color-mix(in srgb, ${AL[f.al].c} 13%, var(--surface));--on-c:#fff">
+  <div class="ticket" id="fl-${f.key}" data-arr="${f.arr}" style="--c:${AL[f.al].c};--cs:color-mix(in srgb, ${AL[f.al].c} 13%, var(--surface));--on-c:#fff">
     <button type="button" class="tsum" aria-expanded="false"><span class="tok">✓</span>${EMO_CODE[f.from]||""}${f.from}${ic("arrow")}${EMO_CODE[f.to]||""}${f.to}<span class="tdn">Done</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-    <div class="eyebrow"><span class="ed">${ic("cal")}${fullDate(f)}</span><span class="cd" data-dep="${f.dep}"></span><span class="epnr">PNR <b>${f.pnr}</b><button type="button" class="copy" data-copy="${esc(f.pnr)}" aria-label="Copy PNR ${esc(f.pnr)}">${ic("copy")}<span>Copy</span></button></span></div>
+    <div class="eyebrow"><span class="ed">${ic("cal")}${fullDate(f)}</span><span class="cd" data-dep="${f.dep}"></span><span class="epnr"><span class="pl">PNR</span> <b>${f.pnr}</b><button type="button" class="copy" data-copy="${esc(f.pnr)}" aria-label="Copy PNR ${esc(f.pnr)}">${ic("copy")}<span>Copy</span></button></span></div>
     <div class="airline">${alLogo(f.al)}${alBadge(f.al, false, fno(f))}</div>
     <div class="legline">
       <span class="lp">${EMO_CODE[f.from]||""}${f.from}${tmTag(f.ft)}<span class="lt">${legTimes(f)[0]}</span></span>
@@ -817,6 +840,8 @@ const tickDone = () => document.querySelectorAll(".ticket[data-arr]").forEach(t 
   t.classList.toggle("done", d); if (!d) t.classList.remove("open");
 });
 document.addEventListener("click", e => {
+  const j = e.target.closest("a.jl");
+  if (j) { const t = document.querySelector(j.getAttribute("href")); if (t && t.classList.contains("done")) { t.classList.add("open"); const sb = t.querySelector(".tsum"); if (sb) sb.setAttribute("aria-expanded", "true"); } }
   const b = e.target.closest(".tsum"); if (!b) return;
   const t = b.closest(".ticket"); const open = t.classList.toggle("open");
   b.setAttribute("aria-expanded", open);
@@ -844,14 +869,16 @@ const simBanner = () => {
 const applySim = v => {
   simAt = v || null;
   try { simAt ? localStorage.setItem(SIM_KEY, simAt) : localStorage.removeItem(SIM_KEY); } catch (e) {}
-  simSel.value = simAt || ""; simBanner(); tickDone(); tickCountdowns();
+  simSel.value = simAt || ""; simBanner(); tickDone(); tickCountdowns(); syncCity(true);
 };
 simSel.addEventListener("change", e => applySim(e.target.value));
 document.addEventListener("click", e => { if (e.target.id === "simExit") applySim(""); });
 simBanner();
 tickDone();
 tickCountdowns();
-setInterval(() => { tickCountdowns(); tickDone(); }, 30000);
+let lastCity = null;
+const syncCity = force => { const c = cityNow(); if (force || c !== lastCity) { if (lastCity !== null || force) TAB_SYNC.forEach(f => f(c)); lastCity = c; } markNow(); };
+setInterval(() => { tickCountdowns(); tickDone(); syncCity(false); }, 30000);
 const stayCard = s => `
   <div class="stay" style="--c:${CITY[s.city].c};--cs:${CITY[s.city].cs}">
     <div class="ico" style="font-size:24px;line-height:1">${EMO[s.city]}</div>
@@ -871,7 +898,7 @@ const showStays = city => {
 };
 stabs.innerHTML = ["kl","pen","lgk"].map(c => `<button class="ptab" role="tab" data-city="${c}" style="--c:${CITY[c].c}">${CITY[c].name}<small>${NIGHTS[c]}, ${stays.filter(x => x.city === c).length} ${stays.filter(x => x.city === c).length > 1 ? "stays" : "stay"}</small></button>`).join("");
 stabs.addEventListener("click", e => { const b = e.target.closest(".ptab"); if (b) showStays(b.dataset.city); });
-showStays("kl");
+showStays(cityNow()); TAB_SYNC.push(showStays);
 
 const tpos = t => Math.round((t - 10) / 25 * 100);
 const wxBox = x => { const w = x.wx; if (!w) return "";
@@ -953,7 +980,7 @@ const showActs = city => {
 atabs.innerHTML = ["kl","pen","lgk"].map(c => { const n = actsIn(c).length, bk = actsIn(c).filter(x => x.status !== "Free").length;
   return `<button class="ptab" role="tab" data-city="${c}" style="--c:${CITY[c].c}">${CITY[c].name}<small>${n} ${n > 1 ? "activities" : "activity"}${bk ? `, ${bk} to book` : ", all free"}</small></button>`; }).join("");
 atabs.addEventListener("click", e => { const b = e.target.closest(".ptab"); if (b) showActs(b.dataset.city); });
-showActs("kl");
+showActs(cityNow()); TAB_SYNC.push(showActs);
 
 const status = r => r[3] >= r[2] ? ["ok","Paid"] : r[3] > 0 ? ["part","Partly paid"] : ["todo","To pay"];
 /* [day, time, icon, name, note, maps query, cta?] in trip order */
@@ -1014,7 +1041,7 @@ const tabbed = (data, tabsId, listId, unit) => {
   };
   tabs.innerHTML = ["kl","pen","lgk"].map(c => `<button class="ptab" role="tab" data-city="${c}" style="--c:${CITY[c].c}">${CITY[c].name}<small>${data[c].length} ${unit}</small></button>`).join("");
   tabs.addEventListener("click", e => { const b = e.target.closest(".ptab"); if (b) show(b.dataset.city); });
-  show("kl");
+  show(cityNow()); TAB_SYNC.push(show);
 };
 tabbed(places, "ptabs", "plist", "places");
 tabbed(food, "ftabs", "flist", "spots");
@@ -1092,6 +1119,7 @@ document.addEventListener("input", e => {
   const k = e.target.dataset && e.target.dataset.ref; if (!k) return;
   refs[k] = e.target.value.trim(); save("my-trip-refs", refs);
 });
+syncCity(false);
 </script>
 </body>
 </html>
