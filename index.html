@@ -186,6 +186,7 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .wxbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0 10px}
 .wx{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
 .wx .loc{margin-left:auto}
+.wx .wlo{font-size:15px;color:var(--muted);margin-left:-2px}
 .wx .we{font-size:26px;line-height:1}
 .wx b{color:var(--ink);font:800 18px "Fredoka",system-ui,sans-serif;font-variant-numeric:tabular-nums}
 .hb{position:relative;width:84px;height:6px;border-radius:3px;background:var(--line)}
@@ -203,6 +204,13 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .tb i{left:0;right:0;background:linear-gradient(0deg,#4f9bff,#ffb03a,#ff6a3d)}
 .wxd .rn{font-size:10px;padding:2px 6px;text-align:center;white-space:normal;line-height:1.25}
 .wxd .ce{font-size:13px;white-space:nowrap}
+.wxd{flex:1 0 84px;gap:6px;padding:12px 6px}
+.wxd .hl{display:flex;align-items:baseline;gap:6px}
+.wxd .hl b{font:700 19px "Fredoka",system-ui,sans-serif;color:var(--ink)}
+.wxd .hl span{font-size:14px;color:var(--muted)}
+.wxd .rp{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--cs);color:var(--c);white-space:nowrap}
+.wxd .rp.none{font-weight:600;white-space:normal;text-align:center;line-height:1.2}
+.wxd .lc{font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap}
 .loc{font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap}
 .wxd .loc{text-align:center;white-space:normal;line-height:1.2}
 .src{font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 6px;border-radius:4px;border:1px dashed var(--line);color:var(--muted)}
@@ -252,6 +260,22 @@ section > h2{font-size:26px;font-weight:700;margin-bottom:14px}
 .ticket .eyebrow .cd{font-weight:600;font-variant-numeric:tabular-nums;padding:2px 10px;border-radius:999px;background:var(--surface);color:var(--ink);border:1px solid var(--line)}
 .ticket .eyebrow .cd.soon{background:var(--todo);border-color:var(--todo);color:#fff;animation:pulse 2s ease-in-out infinite}
 .ticket .eyebrow .cd.past{color:var(--muted)}
+.simbox{margin:28px 0 0;padding:14px 16px;border:1px dashed var(--line);border-radius:12px;background:var(--surface);display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:14px;color:var(--muted)}
+.simbox select{font:600 14px "Figtree",system-ui,sans-serif;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);max-width:100%}
+#simBanner{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 12px;padding:calc(8px + env(safe-area-inset-top,0px)) 16px 8px;background:#5B21B6;color:#fff;font-size:14px;text-align:center}
+#simBanner button{font:700 13px "Figtree",system-ui,sans-serif;padding:4px 12px;border-radius:999px;border:0;background:#fff;color:#5B21B6;cursor:pointer}
+.ticket .tsum{display:none}
+.ticket.done .tsum{grid-column:1/-1;display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:0;margin:0;font:700 19px "Fredoka",system-ui,sans-serif;color:var(--ink);cursor:pointer;text-align:left}
+.ticket.done .tsum svg.i{width:18px;height:18px;color:var(--muted)}
+.ticket.done .tsum .tok{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ok-soft);color:var(--ok);font-size:14px}
+.ticket.done .tsum .tdn{font:600 12px "Figtree",system-ui,sans-serif;padding:2px 9px;border-radius:999px;background:var(--ok-soft);color:var(--ok)}
+.ticket.done .tsum .chev{margin-left:auto;transition:transform .2s;transform-origin:50% 50%;transform-box:fill-box;flex:none;overflow:visible}
+.ticket.done.open .tsum .chev{transform:rotate(180deg)}
+.ticket.done:not(.open) > :not(.tsum){display:none !important}
+.ticket.done:not(.open){padding:14px 22px;opacity:.88}
+.ticket.done .tsum{grid-row:1}
+.ticket.done.open .eyebrow{grid-row:2;margin-top:12px;border-radius:0}
+.ticket.done.open .airline,.ticket.done.open .status{grid-row:3}
 .allogo{display:inline-flex;align-items:center;height:30px;padding:3px 8px;border-radius:8px;background:#fff;border:1px solid var(--line)}
 .allogo img{height:22px;width:auto;display:block}
 .allogo.round{padding:0;border:0;background:none;height:30px}
@@ -348,6 +372,7 @@ footer{padding:26px 0 40px;color:var(--muted);font-size:13px}
   <section id="days"><h2>Day by day</h2><p class="wxnote" id="wxNote">Sat 14 – Wed 18: forecast as of 11 Nov. Thu 19 – Sun 22: typical November weather until the forecast reaches those dates. 📍 shows the place each day’s weather is for.</p><div class="wxstrip" id="wxStrip"></div><div id="dayList"></div></section>
   <section id="budget"><h2>Budget</h2><div class="budget" id="budgetList"></div></section>
   <section id="checklist"><h2>Still to do</h2><ul class="todo" id="todoList"></ul></section>
+  <div class="simbox"><label for="simSel">🧪 Test the page as if it were</label><select id="simSel"></select></div>
   <footer>Booking numbers and ticks are saved in this browser only. Times for unbooked flights are the shortlisted ones. Malaysia costs use ₹23.31 per RM. Baggage depends on the fare you bought, so your e-ticket wins over anything here.</footer>
 </main>
 
@@ -450,13 +475,16 @@ const AL = {
 const LOGO = {"MH": "data:image/png;base64,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", "AI": "data:image/png;base64,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", "IX": "data:image/png;base64,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", "AK": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAflBMVEXjHyDsZWb0r7D4z9DrYGHyV1foaWr8+fnkJCSyGRnlLi7tiYjtNzfmmJaqVVUA//9///9/f3/sP0D7g4P3v8DjJSYAAADhGBn++vrqNTbqVlf75+foRkf/AADvhobxlZUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEkve/AAAAIHRSTlP08f//VKQOBQUDX1KeHwMBAgL/l//+AP7//Pv/+AH//96tmU0AAAJjSURBVHjajZXrmqIwDIbTlgIqzGF32/REe/93uV/EURydkf7wEfI2+ZqGhPxt9Yv38+mvTamUlKw99d4v/Qag679h8cPJqugcMxGzc5FsN/hleIQP3p8sSHLbFW13Nt3Do5+B3pMXfIZxC0NZV9wPK3Z+XDYw2KduZZGLR7+BR9+5X9dxVSLw+P6CBf0+rvCbP8VXsOskJ4SrGNQrlBzNy6en4Q0svaYVQOr3iFiF9PT2WsTF+XAgOL6K4Hsz87e7oQ97e9Zqa+Zi4vYw0wfNVxWsg97AHE2420w9XVVwC6HyJrQJofBWXEdfKjgFnSOn9PXcsjFnVuWyurBX2GWtNUdRwuteZaCCAGvIl/ATJb4IzjErcilGl9a9KWBb5IgtOlS8KhdYHEFH07FkkxNDhGuhRp1VC84Y/AgsAVhOjvNoE5I4YVYBz7lpnWpQNUSjEmKQfCBKw1azJtMQgWKVjaAoaNJGCV4bPgJKkl+Dty5XkBkZkCiKUkjUcEoDYw4aPv8AdqpUGOCggarsVPxn4MI03XINpugazzdXJHWMo4vM1HJquAc4VQxY5ayQGuRyzfN0huEYSaoRiWJJqMmSH8RwvC0ui+uGY7OtOaSx8feaW6+7VzDWu2pra008FHQvJRrbnZFTe1r9KFG0F/616LfFf9j9Wc0HOneufR/suLYCt7MV+M9l3tE2qJcmI726292+pDEedzdGabnH3S0XnV/oH5s52H47JsbfdHd+WR4G0HPU9t8G0DraOvvgPU7PRpuXUENnRTjR5QA0ydBcnkzYdRz3nZ1KibGUyXb9+TS39R9ATpJHYqybxwAAAABJRU5ErkJggg=="};
 const alLogo = code => LOGO[code] ? `<span class="allogo ${code === "AK" ? "round" : ""}"><img src="${LOGO[code]}" alt="${AL[code].n}"></span>` : "";
 const alBadge = (code, small, label) => `<span class="alb${small ? " sm" : ""}" style="background:${AL[code].c}"${label ? "" : ' aria-hidden="true"'}>${ic("plane")}${label || code}</span>`;
+const SIM_KEY = "my-trip-sim";
+let simAt = null; try { simAt = localStorage.getItem(SIM_KEY); } catch (e) {}
+const nowMs = () => simAt ? new Date(simAt).getTime() : Date.now();
 const fullDate = f => {
   const [y, m, d] = f.dep.slice(0, 10).split("-").map(Number);
   const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
   return `${wd} ${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m - 1]}`;
 };
 const countdown = dep => {
-  const ms = new Date(dep).getTime() - Date.now();
+  const ms = new Date(dep).getTime() - nowMs();
   if (ms <= 0) return ["Departed", "past"];
   const mins = Math.floor(ms / 60000), h = Math.floor(mins / 60), m = mins % 60;
   if (h < 24) return [`⏳ Departs in ${h ? h + "h " : ""}${m}m`, "soon"];
@@ -470,7 +498,7 @@ const whenLabel = iso => { const [y, mo, d] = iso.slice(0, 10).split("-").map(Nu
   const tz = iso.endsWith("+05:30") ? "IST" : "Malaysia time";
   return `${wd} ${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][mo - 1]}, ${iso.slice(11, 16)} ${tz}`; };
 const tickCheckins = () => document.querySelectorAll(".ckw").forEach(el => {
-  const now = Date.now(), o = new Date(el.dataset.open).getTime(), c = new Date(el.dataset.close).getTime();
+  const now = nowMs(), o = new Date(el.dataset.open).getTime(), c = new Date(el.dataset.close).getTime();
   let cls, html;
   if (now < o) { cls = "ck-open"; html = `${ic("check")}<b>Check-in opens</b>${whenLabel(el.dataset.open)}<span class="tm">in ${dur(o - now)}</span>`; }
   else if (now < c) { cls = "ck-close"; html = `${ic("check")}<b>Check-in open</b>closes ${whenLabel(el.dataset.close)}<span class="tm">closes in ${dur(c - now)}</span>`; }
@@ -485,25 +513,25 @@ const fno = f => f.no.replace(" (Air India Express)","");
 const legTimes = f => { const [d, a] = f.time.split(", ")[0].split(" → "); return [d, a || ""]; };
 
 const flights = [
-  {key:"f-ai9547", dep:"2026-11-14T05:30:00+05:30", al:"IX", ci:["Try AIX web check-in", URL_.aix, "Your e-ticket says web check-in isn’t allowed on this codeshare, so expect to use the Air India Express counter at BLR T2."], from:"BLR", to:"DEL", ft:"T2", tt:"T1", no:"AI 9547 (Air India Express)", day:"Sat 14", time:"05:30 → 08:30", pnr:"93OG4W", city:"home",
+  {key:"f-ai9547", cio:"2026-11-12T05:30:00+05:30", cic:"2026-11-14T04:30:00+05:30", arr:"2026-11-14T08:30:00+05:30", dep:"2026-11-14T05:30:00+05:30", al:"IX", ci:["Web check-in", URL_.aix, "Closes Sat 14 Nov, 04:30 IST."], from:"BLR", to:"DEL", ft:"T2", tt:"T1", no:"AI 9547 (Air India Express)", day:"Sat 14", time:"05:30 → 08:30", pnr:"UCQQ4H", city:"home",
    a:[AP.BLR2, AP.DEL1], cta:["Manage booking", URL_.aix],
    bag:{cabin:"7 kg", checked:"20 kg"},
-   note:"No web check-in: use the Air India Express counters at BLR T2. Separate PNR from AI 2384, so in Delhi collect your bag at T1, take the shuttle to T3 and check it in again."},
-  {key:"f-ai2384", cio:"2026-11-12T13:50:00+05:30", cic:"2026-11-14T11:50:00+05:30", dep:"2026-11-14T13:50:00+05:30", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sat 14 Nov, 11:50 IST."], from:"DEL", to:"KUL", ft:"T3", tt:"T1", no:"AI 2384", day:"Sat 14", time:"13:50 → 22:00, seat 9A", pnr:"93GEQ5", city:"kl",
+   note:"Check in on the Air India Express site with PNR UCQQ4H (Air India reference 93OG4W). Separate booking from AI 2384, so in Delhi collect your bag at T1, take the shuttle to T3 and check it in again."},
+  {key:"f-ai2384", arr:"2026-11-14T22:00:00+08:00", cio:"2026-11-12T13:50:00+05:30", cic:"2026-11-14T11:50:00+05:30", dep:"2026-11-14T13:50:00+05:30", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sat 14 Nov, 11:50 IST."], from:"DEL", to:"KUL", ft:"T3", tt:"T1", no:"AI 2384", day:"Sat 14", time:"13:50 → 22:00, seat 9A", pnr:"93GEQ5", city:"kl",
    a:[AP.DEL3, AP.KUL1], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"30 kg"},
    note:"Emigration at Delhi T3."},
-  {key:"f-kulpen", cio:"2026-11-14T13:50:00+08:00", cic:"2026-11-16T12:20:00+08:00", dep:"2026-11-16T13:50:00+08:00", al:"MH", cut:CUT.mh1148, ci:["Web check-in", URL_.mhCheckin, "Closes Mon 16 Nov, 12:20 Malaysia time. Required for economy at KLIA."], from:"KUL", to:"PEN", ft:"T1", tt:"", no:"MH 1148", day:"Mon 16", time:"13:50 → 14:50", pnr:"58Q72G", city:"pen",
+  {key:"f-kulpen", arr:"2026-11-16T14:50:00+08:00", cio:"2026-11-14T13:50:00+08:00", cic:"2026-11-16T12:20:00+08:00", dep:"2026-11-16T13:50:00+08:00", al:"MH", cut:CUT.mh1148, ci:["Web check-in", URL_.mhCheckin, "Closes Mon 16 Nov, 12:20 Malaysia time. Required for economy at KLIA."], from:"KUL", to:"PEN", ft:"T1", tt:"", no:"MH 1148", day:"Mon 16", time:"13:50 → 14:50", pnr:"58Q72G", city:"pen",
    a:[AP.KUL1, AP.PEN], cta:["Manage booking", URL_.mh], bag:{cabin:"7 kg", checked:"20 kg"}},
-  {key:"f-penlgk", cio:"2026-11-05T09:40:00+08:00", cic:"2026-11-19T08:40:00+08:00", dep:"2026-11-19T09:40:00+08:00", al:"AK", cut:CUT.ak6241, ci:["Web check-in", URL_.akCheckin, "Closes Thu 19 Nov, 08:40 Malaysia time."], from:"PEN", to:"LGK", ft:"", tt:"", no:"AK 6241", day:"Thu 19", time:"09:40 → 10:15", pnr:"JESC4T", city:"lgk",
+  {key:"f-penlgk", arr:"2026-11-19T10:15:00+08:00", cio:"2026-11-05T09:40:00+08:00", cic:"2026-11-19T08:40:00+08:00", dep:"2026-11-19T09:40:00+08:00", al:"AK", cut:CUT.ak6241, ci:["Web check-in", URL_.akCheckin, "Closes Thu 19 Nov, 08:40 Malaysia time."], from:"PEN", to:"LGK", ft:"", tt:"", no:"AK 6241", day:"Thu 19", time:"09:40 → 10:15", pnr:"JESC4T", city:"lgk",
    a:[AP.PEN, AP.LGK], cta:["Manage booking", URL_.airasia], bag:{cabin:"7 kg total, including your personal item", checked:"20 kg"},
    note:"AirAsia charges extra for airport check-in."},
-  {key:"f-lgkkul", cio:"2026-11-06T18:30:00+08:00", cic:"2026-11-20T17:30:00+08:00", dep:"2026-11-20T18:30:00+08:00", al:"AK", cut:CUT.ak6317, ci:["Web check-in", URL_.akCheckin, "Closes Fri 20 Nov, 17:30 Malaysia time."], from:"LGK", to:"KUL", ft:"", tt:"T2", no:"AK 6317", day:"Fri 20", time:"18:30 → 19:45", pnr:"F9VR5S", city:"kl",
+  {key:"f-lgkkul", arr:"2026-11-20T19:45:00+08:00", cio:"2026-11-06T18:30:00+08:00", cic:"2026-11-20T17:30:00+08:00", dep:"2026-11-20T18:30:00+08:00", al:"AK", cut:CUT.ak6317, ci:["Web check-in", URL_.akCheckin, "Closes Fri 20 Nov, 17:30 Malaysia time."], from:"LGK", to:"KUL", ft:"", tt:"T2", no:"AK 6317", day:"Fri 20", time:"18:30 → 19:45", pnr:"F9VR5S", city:"kl",
    a:[AP.LGK, AP.KUL2], cta:["Manage booking", URL_.airasia], bag:{cabin:"7 kg total, including your personal item", checked:"20 kg"},
    note:"Airport check-in costs extra. Be at Langkawi airport by 16:30. Lands at KLIA T2 (klia2), not T1."},
-  {key:"f-ai2387", cio:"2026-11-19T23:00:00+08:00", cic:"2026-11-21T21:00:00+08:00", dep:"2026-11-21T23:00:00+08:00", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sat 21 Nov, 21:00 Malaysia time."], from:"KUL", to:"DEL", ft:"T1", tt:"T3", no:"AI 2387", day:"Sat 21", time:"23:00 → 02:20 (Sun), seat 9F", pnr:"93GEQ5", city:"home",
+  {key:"f-ai2387", arr:"2026-11-22T02:20:00+05:30", cio:"2026-11-19T23:00:00+08:00", cic:"2026-11-21T21:00:00+08:00", dep:"2026-11-21T23:00:00+08:00", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sat 21 Nov, 21:00 Malaysia time."], from:"KUL", to:"DEL", ft:"T1", tt:"T3", no:"AI 2387", day:"Sat 21", time:"23:00 → 02:20 (Sun), seat 9F", pnr:"93GEQ5", city:"home",
    a:[AP.KUL1, AP.DEL3], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"30 kg"},
    note:"Immigration, customs and bag pickup at Delhi T3."},
-  {key:"f-delblr", cio:"2026-11-20T06:00:00+05:30", cic:"2026-11-22T05:00:00+05:30", dep:"2026-11-22T06:00:00+05:30", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sun 22 Nov, 05:00 IST."], from:"DEL", to:"BLR", ft:"T3", tt:"T2", no:"AI 2409", day:"Sun 22", time:"06:00 → 08:50", pnr:"5BMSRK", city:"home",
+  {key:"f-delblr", arr:"2026-11-22T08:50:00+05:30", cio:"2026-11-20T06:00:00+05:30", cic:"2026-11-22T05:00:00+05:30", dep:"2026-11-22T06:00:00+05:30", al:"AI", ci:["Web check-in", URL_.aiCheckin, "Closes Sun 22 Nov, 05:00 IST."], from:"DEL", to:"BLR", ft:"T3", tt:"T2", no:"AI 2409", day:"Sun 22", time:"06:00 → 08:50", pnr:"5BMSRK", city:"home",
    a:[AP.DEL3, AP.BLR2], cta:["Manage booking", URL_.airindia], bag:{cabin:"7 kg", checked:"20 kg, 1 piece"},
    note:"⚠️ Checked bag must be under 20 kg, one piece (AI 2387 allowed 30 kg), so weigh it before you leave KL. Booked via Hopper; manage it there. Separate PNR: check your bag in again at T3 and be checked in by 05:00. Air India’s Delhi T2 flights are numbered AI 1xxx, so AI 2409 should leave from T3, the terminal you land at, but confirm on your boarding pass."}
 ];
@@ -553,12 +581,12 @@ const optsHtml = o => o && o.length ? `<div class="opts"><span>Options</span>${o
 const days = [
   {id:"sat-14", wx:{e:"🌫️", hi:30, lo:18, loc:"Delhi (daytime)", fc:true, p:0, rn:"Dry, hazy", note:"Smoggy but dry while you transfer in Delhi. KL tonight: about 25° with a 75% chance of rain, mostly before you land."}, d:"Sat 14", city:"kl", move:["blr","del","kl"], sum:"Bengaluru to KL via Delhi, straight to bed.", todo:[
     ["Night before","Screenshot the MDAC confirmation, both PNRs and the hotel booking"],
-    ["By 04:30","Check in at the Air India Express counter, BLR T2 (no web check-in)", URL_.aix],
+    ["Thu 12, 05:30+","Web check-in on Air India Express with PNR UCQQ4H", URL_.aix],
     ["08:30","Collect your bag at Delhi T1, shuttle to T3, check in for AI 2384", URL_.aiCheckin],
     ["At Delhi","Recharge your eSIM and switch on Indian SIM roaming"],
     ["22:00","Grab from KLIA T1 to Grand Mercure, 117 Jalan Pudu"]], stops:[
-    ["3:15","car","Leave Bellandur for BLR T2","No web check-in: use the Air India Express counters.",AP.BLR2],
-    ["5:30","plane","Fly BLR T2 → DEL T1","AI 9547, lands 08:30. PNR 93OG4W.",AP.DEL1,{cta:[["Try AIX web check-in",URL_.aix]]}],
+    ["3:15","car","Leave Bellandur for BLR T2","Checked in online? Go straight to bag drop at T2.",AP.BLR2],
+    ["5:30","plane","Fly BLR T2 → DEL T1","AI 9547, lands 08:30. AIX PNR UCQQ4H.",AP.DEL1,{cta:[["Web check-in",URL_.aix]]}],
     ["~9:00","train","Transfer to Delhi T3","Collect your bag at T1, shuttle to T3, check in again (separate PNR).",AP.DEL3],
     ["13:50","plane","Fly DEL T3 → KUL T1","AI 2384, seat 9A. PNR 93GEQ5.",AP.KUL1,{cta:[["Web check-in",URL_.aiCheckin]]}],
     ["22:00","plane","Land at KLIA T1","Immigration, then Grab to the city (about 1 hr).",AP.KUL1],
@@ -714,7 +742,8 @@ document.getElementById("packRule").innerHTML =
   `${ic("scale")}<p><b>Pack to 7 kg cabin and 20 kg checked.</b> Every flight allows at least that; the two Air India international flights allow 30 kg, so you can shop in Malaysia but the bag must be back under 20 kg for Delhi → Bengaluru. AirAsia counts your personal item inside the 7 kg.</p>`;
 
 document.getElementById("flightList").innerHTML = flights.map(f => `
-  <div class="ticket" style="--c:${AL[f.al].c};--cs:color-mix(in srgb, ${AL[f.al].c} 13%, var(--surface));--on-c:#fff">
+  <div class="ticket" data-arr="${f.arr}" style="--c:${AL[f.al].c};--cs:color-mix(in srgb, ${AL[f.al].c} 13%, var(--surface));--on-c:#fff">
+    <button type="button" class="tsum" aria-expanded="false"><span class="tok">✓</span>${EMO_CODE[f.from]||""}${f.from}${ic("arrow")}${EMO_CODE[f.to]||""}${f.to}<span class="tdn">Done</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
     <div class="eyebrow"><span class="ed">${ic("cal")}${fullDate(f)}</span><span class="cd" data-dep="${f.dep}"></span><span class="epnr">PNR <b>${f.pnr}</b><button type="button" class="copy" data-copy="${esc(f.pnr)}" aria-label="Copy PNR ${esc(f.pnr)}">${ic("copy")}<span>Copy</span></button></span></div>
     <div class="airline">${alLogo(f.al)}${alBadge(f.al, false, fno(f))}</div>
     <div class="legline">
@@ -783,8 +812,46 @@ async function loadLiveWeather() {
 }
 let wxo;
 loadLiveWeather();
+const tickDone = () => document.querySelectorAll(".ticket[data-arr]").forEach(t => {
+  const d = nowMs() >= new Date(t.dataset.arr).getTime();
+  t.classList.toggle("done", d); if (!d) t.classList.remove("open");
+});
+document.addEventListener("click", e => {
+  const b = e.target.closest(".tsum"); if (!b) return;
+  const t = b.closest(".ticket"); const open = t.classList.toggle("open");
+  b.setAttribute("aria-expanded", open);
+});
+const SIM_OPTS = [["", "Real time (now)"],
+  ["2026-11-13T20:00:00+05:30", "Fri 13 Nov, 20:00 IST: night before"],
+  ["2026-11-14T03:30:00+05:30", "Sat 14, 03:30 IST: leaving for BLR"],
+  ["2026-11-14T10:00:00+05:30", "Sat 14, 10:00 IST: transfer in Delhi"],
+  ["2026-11-15T12:00:00+08:00", "Sun 15, 12:00: in KL"],
+  ["2026-11-16T11:30:00+08:00", "Mon 16, 11:30: heading to KLIA"],
+  ["2026-11-17T12:00:00+08:00", "Tue 17, 12:00: in Penang"],
+  ["2026-11-19T07:00:00+08:00", "Thu 19, 07:00: before PEN → LGK"],
+  ["2026-11-20T15:00:00+08:00", "Fri 20, 15:00: last Langkawi afternoon"],
+  ["2026-11-21T20:00:00+08:00", "Sat 21, 20:00: before flying home"],
+  ["2026-11-22T10:00:00+05:30", "Sun 22, 10:00 IST: back home"]];
+const simSel = document.getElementById("simSel");
+simSel.innerHTML = SIM_OPTS.map(o => `<option value="${o[0]}">${o[1]}</option>`).join("");
+simSel.value = simAt || "";
+const simBanner = () => {
+  let b = document.getElementById("simBanner");
+  if (!simAt) { if (b) b.remove(); return; }
+  if (!b) { b = document.createElement("div"); b.id = "simBanner"; document.body.prepend(b); }
+  b.innerHTML = `🧪 Test mode: showing the page as on <b>${SIM_OPTS.find(o => o[0] === simAt)?.[1] || simAt}</b> <button type="button" id="simExit">Back to real time</button>`;
+};
+const applySim = v => {
+  simAt = v || null;
+  try { simAt ? localStorage.setItem(SIM_KEY, simAt) : localStorage.removeItem(SIM_KEY); } catch (e) {}
+  simSel.value = simAt || ""; simBanner(); tickDone(); tickCountdowns();
+};
+simSel.addEventListener("change", e => applySim(e.target.value));
+document.addEventListener("click", e => { if (e.target.id === "simExit") applySim(""); });
+simBanner();
+tickDone();
 tickCountdowns();
-setInterval(tickCountdowns, 30000);
+setInterval(() => { tickCountdowns(); tickDone(); }, 30000);
 const stayCard = s => `
   <div class="stay" style="--c:${CITY[s.city].c};--cs:${CITY[s.city].cs}">
     <div class="ico" style="font-size:24px;line-height:1">${EMO[s.city]}</div>
@@ -807,20 +874,19 @@ stabs.addEventListener("click", e => { const b = e.target.closest(".ptab"); if (
 showStays("kl");
 
 const tpos = t => Math.round((t - 10) / 25 * 100);
-const wxBox = x => x.wx?`<div class="wxbox"><div class="wx"><span class="we">${x.wx.e}</span><b>${x.wx.hi}°</b><span class="hb"><i style="left:${tpos(x.wx.lo)}%;width:${tpos(x.wx.hi)-tpos(x.wx.lo)}%"></i></span><span>${x.wx.lo}°</span><span class="rn">${x.wx.p!=null?"💧 "+x.wx.p+"% · ":""}${x.wx.rn}</span><span class="loc">📍 ${x.wx.loc}</span><span class="src ${x.wx.fc?"fc":""}">${x.wx.fc?"Forecast":"Typical"}</span></div><p class="wxn">${x.wx.note}</p></div>`:"";
+const wxBox = x => { const w = x.wx; if (!w) return "";
+  const short = /Delhi/.test(w.loc) ? ["🇮🇳","Delhi"] : /Kuala/.test(w.loc) ? ["🏙️","KL"] : /George/.test(w.loc) ? ["☕","Penang"] : ["🏖️","Langkawi"];
+  return `<div class="wxbox"><div class="wx"><span class="we">${w.e}</span><b>${w.hi}°</b><span class="wlo">${w.lo}°</span>${w.p != null ? `<span class="rn">💧 ${w.p}%</span>` : ""}<span class="loc">${short[0]} ${short[1]}</span></div><p class="wxn">${w.note}</p></div>`; };
 const renderWxStrip = () => { document.getElementById("wxStrip").innerHTML = days.map(x => {
   const w = x.wx; if (!w) return "";
   const c = CITY[x.city];
+  const short = /Delhi/.test(w.loc) ? ["🇮🇳","Delhi"] : /Kuala/.test(w.loc) ? ["🏙️","KL"] : /George/.test(w.loc) ? ["☕","Penang"] : ["🏖️","Langkawi"];
   return `<a class="wxd" href="#${x.id}" style="--c:${c.c};--cs:${c.cs}">
     <span class="dn">${x.d}</span>
-    <span class="loc">📍 ${w.loc}</span>
     <span class="we">${w.e}</span>
-    <span class="hi">${w.hi}°</span>
-    <span class="tb"><i style="bottom:${tpos(w.lo)}%;height:${tpos(w.hi)-tpos(w.lo)}%"></i></span>
-    <span class="lo">${w.lo}°</span>
-    <span class="rn">${w.p!=null?"💧 "+w.p+"% · ":""}${w.rn}</span>
-    <span class="src ${w.fc?"fc":""}">${w.fc?"Forecast":"Typical"}</span>
-    <span class="ce">${(x.move ? x.move.map(p => (EMO_CODE[{blr:"BLR",del:"DEL",kl:"KL",pen:"PEN",lgk:"LGK"}[p]]||"").trim()).join("→") : EMO[x.city])}</span>
+    <span class="hl"><b>${w.hi}°</b><span>${w.lo}°</span></span>
+    ${w.p != null ? `<span class="rp">💧 ${w.p}%</span>` : `<span class="rp none">${w.rn}</span>`}
+    <span class="lc">${short[0]} ${short[1]}</span>
   </a>`;
 }).join(""); };
 renderWxStrip();
